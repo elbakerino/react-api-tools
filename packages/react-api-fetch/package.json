@@ -1,0 +1,25 @@
+{
+    "name": "react-api-fetch",
+    "version": "0.0.1",
+    "description": "",
+    "homepage": "https://bemit.codes",
+    "author": "Michael Becker <michael@bemit.codes>",
+    "license": "MIT",
+    "keywords": [
+        "react-component",
+        "react"
+    ],
+    "dependencies": {
+        "react": "^16.12",
+        "@types/react": "^16.12"
+    },
+    "main": "index.js",
+    "module": "esm/index.js",
+    "scripts": {
+        "dtsgen": "tsc -d --emitDeclarationOnly --pretty && merge-dirs build/dts build && rm -rf build/dts && rm -rf build/**/*.test.*",
+        "__release": "cp package.json build/ && cp package-lock.json build/ && cp README.md build/ && npm publish build"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}
