@@ -13,9 +13,9 @@ export const useApi = <HR = {}>(
     data?: any,
     reqHeaders?: HeadersInit,
 ) => Promise<{
-    data: any
+    data: D
     code: number
-} & HR & D> => {
+} & HR> => {
     return React.useCallback((
         url: string,
         method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' = 'GET',
