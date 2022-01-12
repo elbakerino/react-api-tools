@@ -1,74 +1,44 @@
 import React from 'react'
+import { fetcherFetch } from 'react-api-fetch/fetcherFetch'
+import { dataConverterJson, FetcherFetchMethod, FetcherHooks } from 'react-api-fetch/fetcher'
 
 export const useApi = <HR = {}>(
     {bearer, audience, extractHeaders, headers}: {
         bearer?: string
         audience?: string
-        extractHeaders?: (headers: Headers) => HR
+        extractHeaders?: FetcherHooks<HR>['extractHeaders']
         headers?: HeadersInit
     } = {},
+    // todo: the return type should use `fetcherInterface`
 ): <D = {}>(
     url: string,
-    method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
+    method?: FetcherFetchMethod,
     data?: any,
     reqHeaders?: HeadersInit,
 ) => Promise<{
     data: D
     code: number
 } & HR> => {
-    return React.useCallback((
+    return React.useCallback(<D = {}>(
         url: string,
-        method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' = 'GET',
+        method: FetcherFetchMethod = 'GET',
         data?: any,
         reqHeaders?: HeadersInit,
     ) => {
-        let status = 0
-        let headerData: HR
-        return fetch(
-            url,
+        return fetcherFetch<D, HR>(
+            url, method, data,
+            headers ? {
+                ...headers,
+                ...(reqHeaders || {}),
+            } : reqHeaders,
             {
-                method,
-                headers: {
-                    ...(headers || {}),
-                    ...(bearer ? {'Authorization': bearer} : {}),
-                    ...(audience ? {'Audience': audience} : {}),
-                    ...(reqHeaders || {}),
-                },
-                body: data ? JSON.stringify(data) : undefined,
+                bearer: bearer,
+                audience: audience,
+            }, {
+                extractHeaders: extractHeaders,
+                dataConvert: dataConverterJson,
             },
         )
-            .then(res => {
-                status = res.status
-                headerData = ((extractHeaders ? extractHeaders(res.headers) : {}) as unknown as HR)
-                return res.text()
-            })
-            .then(
-                text => {
-                    let d
-                    try {
-                        d = JSON.parse(text)
-                    } catch(e) {
-                        console.error('JSON parse error of api result', e, text)
-                    }
-                    return d
-                },
-            )
-            .then(
-                data => ({
-                    data,
-                    ...(headerData || {}),
-                    code: status,
-                }),
-            )
-            .then(
-                data =>
-                    data.code !== 200 ?
-                        Promise.reject(data) :
-                        data as unknown as {
-                            data: any
-                            code: number
-                        } & HR & any,
-            )
     }, [
         audience, bearer,
     ])

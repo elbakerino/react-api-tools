@@ -1,5 +1,5 @@
 const path = require('path');
-const { packer, webpack} = require('lerna-packer');
+const {packer, webpack} = require('lerna-packer');
 
 packer(
     {
@@ -23,12 +23,6 @@ packer(
                     new webpack.DefinePlugin({
                         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
                         'process.env.NODE_DEBUG': JSON.stringify(process.env.NODE_ENV),
-                        'process.env.REACT_APP_ORB_BRIDGE_API': JSON.stringify('https://api.bridge.orbiter.cloud'),
-                        //'process.env.REACT_APP_ID_API': JSON.stringify('https://id.bemit.eu'),
-                        'process.env.REACT_APP_ID_API': JSON.stringify('http://localhost:4033'),
-                        /*'process.env.REACT_APP_AUTH0_CLIENT': JSON.stringify('r2RuwOr44mmtoUa6N6NjHbzGk5jNAeYz'),
-                        'process.env.REACT_APP_AUTH0_DOMAIN': JSON.stringify('bemit.eu.auth0.com'),
-                        'process.env.REACT_APP_AUTH0_AUDIENCE': JSON.stringify('https://orbiter.cloud'),*/
                     }),
                 ],
             },
@@ -45,6 +39,11 @@ packer(
                 name: 'react-progress-state',
                 root: path.resolve(__dirname, 'packages', 'react-progress-state'),
                 entry: path.resolve(__dirname, 'packages', 'react-progress-state/src/'),
+            },
+            reactUseImmutable: {
+                name: 'react-use-immutable',
+                root: path.resolve(__dirname, 'packages', 'react-use-immutable'),
+                entry: path.resolve(__dirname, 'packages', 'react-use-immutable/src/'),
             },
         },
     },

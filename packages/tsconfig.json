@@ -30,6 +30,12 @@
             ],
             "react-progress-state/*": [
                 "react-progress-state/src/*"
+            ],
+            "react-use-immutable": [
+                "react-use-immutable/src"
+            ],
+            "react-use-immutable/*": [
+                "react-use-immutable/src/*"
             ]
         }
     },

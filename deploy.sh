@@ -19,6 +19,10 @@ cd react-progress-state
 cp package.json build/ && cp package-lock.json build/ && cp README.md build/
 cd ../
 
+cd react-use-immutable
+cp package.json build/ && cp package-lock.json build/ && cp README.md build/
+cd ../
+
 cd ../
 
 #npm run release

@@ -9,7 +9,15 @@ export type PROGRESS = false | 'start' | true | 'error'
 
 export interface ApiErrorData {
     code: number
-    data: { error: string } & Object
+    data: ({
+        error: string | { [k: string]: any } | any
+    } | {
+        errors: string | { [k: string]: any } | any
+    }) & {
+        code?: number
+        message?: string | any
+        reason?: string | any
+    }
 }
 
 export interface PROGRESS_CONTEXT {

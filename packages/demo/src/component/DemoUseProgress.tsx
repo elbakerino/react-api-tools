@@ -48,7 +48,7 @@ export const DemoUseProgress = () => {
             </Button>
         </Box>
 
-        <Typography>
+        <Typography component={'div'}>
             <pre><code>{JSON.stringify(p, undefined, 4)}</code></pre>
         </Typography>
     </>
