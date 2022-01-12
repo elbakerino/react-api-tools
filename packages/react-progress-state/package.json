@@ -1,6 +1,6 @@
 {
     "name": "react-progress-state",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "",
     "homepage": "https://bemit.codes",
     "author": "Michael Becker <michael@bemit.codes>",
@@ -18,8 +18,7 @@
     "main": "index.js",
     "module": "esm/index.js",
     "scripts": {
-        "dtsgen": "tsc -d --emitDeclarationOnly --pretty && merge-dirs build/dts build && rm -rf build/dts && rm -rf build/**/*.test.*",
-        "__release": "cp package.json build/ && cp package-lock.json build/ && cp README.md build/ && npm publish build"
+        "dtsgen": "tsc -d --emitDeclarationOnly --pretty && merge-dirs build/dts/react-progress-state/src build && rm -rf build/dts && rm -rf build/**/*.test.*"
     },
     "publishConfig": {
         "access": "public"
