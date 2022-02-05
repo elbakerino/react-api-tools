@@ -25,15 +25,43 @@ export interface PROGRESS_CONTEXT {
     context: ApiErrorData | any
 }
 
-export function useProgress(): [PROGRESS_CONTEXT, (progress: PROGRESS, context?: ApiErrorData | any) => void] {
+export type setProgress = (progress: PROGRESS, context?: ApiErrorData | any, pid?: number) => void
+export type startProgress = (context?: ApiErrorData | any) => number
+
+export function useProgress(reset?: any): [
+    PROGRESS_CONTEXT,
+    setProgress,
+    startProgress,
+] {
+    const pidRef = React.useRef(0)
+    let mounted = true
+
+    React.useEffect(() => {
+        return () => {
+            pidRef.current = 0
+            mounted = false
+        }
+    }, [pidRef, reset])
+
     const [progress, setP] = React.useState<PROGRESS_CONTEXT>({
         progress: PROGRESS_NONE,
         context: undefined,
     })
-    const setProgress = React.useCallback((progress, context) => {
+
+    const startProgress: startProgress = React.useCallback((context) => {
+        setP({
+            progress: PROGRESS_START,
+            context,
+        })
+        return pidRef.current = pidRef.current + 1
+    }, [setP])
+
+    const setProgress: setProgress = React.useCallback((progress, context, pid) => {
+        if(!mounted || pidRef.current !== pid) return undefined
         setP({
             progress, context,
         })
     }, [setP])
-    return [progress, setProgress]
+
+    return [progress, setProgress, startProgress]
 }
