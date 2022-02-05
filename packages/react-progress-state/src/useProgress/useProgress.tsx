@@ -56,7 +56,7 @@ export function useProgress(reset?: any): [
         return pidRef.current = pidRef.current + 1
     }, [setP])
 
-    const setProgress: setProgress = React.useCallback((progress, context, pid) => {
+    const setProgress: setProgress = React.useCallback((progress, context, pid = 0) => {
         if(!mounted || pidRef.current !== pid) return undefined
         setP({
             progress, context,
