@@ -25,7 +25,7 @@ export interface PROGRESS_CONTEXT {
     context: ApiErrorData | any
 }
 
-export type setProgress = (progress: PROGRESS, context?: ApiErrorData | any, pid?: number) => void
+export type setProgress = (progress: PROGRESS, context?: ApiErrorData | any, pid?: number) => boolean
 export type startProgress = (context?: ApiErrorData | any) => number
 
 export function useProgress(reset?: any): [
@@ -34,19 +34,29 @@ export function useProgress(reset?: any): [
     startProgress,
 ] {
     const pidRef = React.useRef(0)
-    let mounted = true
-
-    React.useEffect(() => {
-        return () => {
-            pidRef.current = 0
-            mounted = false
-        }
-    }, [pidRef, reset])
+    const mountedRef = React.useRef(true)
 
     const [progress, setP] = React.useState<PROGRESS_CONTEXT>({
         progress: PROGRESS_NONE,
         context: undefined,
     })
+
+    React.useEffect(() => {
+        return () => {
+            pidRef.current = 0
+            mountedRef.current = false
+        }
+    }, [pidRef, setP, mountedRef])
+
+    React.useEffect(() => {
+        setP({
+            progress: PROGRESS_NONE,
+            context: undefined,
+        })
+        return () => {
+            pidRef.current = pidRef.current + 1
+        }
+    }, [pidRef, reset, setP])
 
     const startProgress: startProgress = React.useCallback((context) => {
         setP({
@@ -54,14 +64,18 @@ export function useProgress(reset?: any): [
             context,
         })
         return pidRef.current = pidRef.current + 1
-    }, [setP])
+    }, [setP, pidRef])
 
     const setProgress: setProgress = React.useCallback((progress, context, pid = 0) => {
-        if(!mounted || pidRef.current !== pid) return undefined
+        if(!mountedRef.current || pidRef.current !== pid) {
+            // todo: maybe setting to PROGRESS_NONE when still mounted?
+            return false
+        }
         setP({
             progress, context,
         })
-    }, [setP])
+        return true
+    }, [setP, pidRef, mountedRef])
 
     return [progress, setProgress, startProgress]
 }

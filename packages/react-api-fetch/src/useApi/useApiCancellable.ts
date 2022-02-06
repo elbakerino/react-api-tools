@@ -50,7 +50,5 @@ export const useApiCancellable = <HR = {}>(
         const cancel = () => cancelled = true
 
         return {fetch, cancel}
-    }, [
-        audience, bearer,
-    ])
+    }, [audience, bearer, extractHeaders, headers])
 }

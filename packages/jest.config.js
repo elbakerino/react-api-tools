@@ -1,4 +1,4 @@
-const packages = ['react-api-fetch', 'react-progress-state'];
+const packages = ['react-api-fetch', 'react-progress-state', 'react-use-immutable'];
 
 const testMatches = []
 const testMatchesLint = []
@@ -25,6 +25,7 @@ const base = {
     moduleNameMapper: {
         '^react-api-fetch(.*)$': '<rootDir>/react-api-fetch/src$1',
         '^react-progress-state(.*)$': '<rootDir>/react-progress-state/src$1',
+        '^react-use-immutable(.*)$': '<rootDir>/react-use-immutable/src$1',
     },
     moduleFileExtensions: [
         'ts',

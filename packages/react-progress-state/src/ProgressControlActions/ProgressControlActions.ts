@@ -91,7 +91,7 @@ export function useProgressControl(scope: string): UseProgressControlActions {
 
     const scopeSetter = React.useCallback((id: string | number, progress: PROGRESS, context: any) => {
         scopeSetterDispatcher(scope, id, progress, context, setProgressControl)
-    }, [scope, scopeSetterDispatcher])
+    }, [scope, setProgressControl])
 
     const isAlreadyDone = React.useCallback((id: string | number): boolean => {
         return progressControlState[scope][String(id)] === PROGRESS_START || progressControlState[scope][String(id)] === PROGRESS_DONE
@@ -103,15 +103,15 @@ export function useProgressControl(scope: string): UseProgressControlActions {
 
     const setStart = React.useCallback((id: string | number, context?: any): void => {
         scopeSetter(id, PROGRESS_START, context)
-    }, [scope, setProgressControl])
+    }, [scopeSetter])
 
     const setDone = React.useCallback((id: string | number, context?: any): void => {
         scopeSetter(id, PROGRESS_DONE, context)
-    }, [scope, setProgressControl])
+    }, [scopeSetter])
 
     const setError = React.useCallback((id: string | number, context?: any): void => {
         scopeSetter(id, PROGRESS_ERROR, context)
-    }, [scope, setProgressControl])
+    }, [scopeSetter])
 
     const resetScope = React.useCallback((): void => {
         setProgressControl(pc => pc.setIn([scope], Map()))
@@ -150,19 +150,19 @@ export function useProgressActions(): UseProgressControlGlobalActionsStateLess {
 
     const scopeSetter = React.useCallback((scope: string, id: string | number, progress: PROGRESS, context: any) => {
         scopeSetterDispatcher(scope, id, progress, context, setProgressControl)
-    }, [scopeSetterDispatcher])
+    }, [setProgressControl])
 
     const setStart = React.useCallback((scope: string, id: string | number, context?: any): void => {
         scopeSetter(scope, id, PROGRESS_START, context)
-    }, [setProgressControl])
+    }, [scopeSetter])
 
     const setDone = React.useCallback((scope: string, id: string | number, context?: any): void => {
         scopeSetter(scope, id, PROGRESS_DONE, context)
-    }, [setProgressControl])
+    }, [scopeSetter])
 
     const setError = React.useCallback((scope: string, id: string | number, context?: any): void => {
         scopeSetter(scope, id, PROGRESS_ERROR, context)
-    }, [setProgressControl])
+    }, [scopeSetter])
 
     return {
         isStarted, isAlreadyDone,

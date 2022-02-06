@@ -39,7 +39,5 @@ export const useApi = <HR = {}>(
                 dataConvert: dataConverterJson,
             },
         )
-    }, [
-        audience, bearer,
-    ])
+    }, [audience, bearer, extractHeaders, headers])
 }
