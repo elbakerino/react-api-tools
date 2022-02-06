@@ -77,9 +77,11 @@ export interface UseProgressControlActions extends UseProgressControlActionsStat
 }
 
 const scopeSetterDispatcher = (scope: string, id: string | number, progress: PROGRESS, context: any, updater: setProgressControl) => {
-    ensureScopeState(scope)
-    updater(pc => pc.setIn([scope, String(id)], List([progress, context])))
+    if(!progressControlState[scope]) {
+        progressControlState[scope] = {}
+    }
     progressControlState[scope][String(id)] = progress
+    updater(pc => pc.setIn([scope, String(id)], List([progress, context])))
 }
 
 export function useProgressControl(scope: string): UseProgressControlActions {
@@ -94,11 +96,11 @@ export function useProgressControl(scope: string): UseProgressControlActions {
     }, [scope, setProgressControl])
 
     const isAlreadyDone = React.useCallback((id: string | number): boolean => {
-        return progressControlState[scope][String(id)] === PROGRESS_START || progressControlState[scope][String(id)] === PROGRESS_DONE
+        return progressControlState[scope]?.[String(id)] === PROGRESS_START || progressControlState[scope]?.[String(id)] === PROGRESS_DONE
     }, [scope])
 
     const isStarted = React.useCallback((id: string | number): boolean => {
-        return progressControlState[scope][String(id)] === PROGRESS_START
+        return progressControlState[scope]?.[String(id)] === PROGRESS_START
     }, [scope])
 
     const setStart = React.useCallback((id: string | number, context?: any): void => {
@@ -131,21 +133,15 @@ export function useProgressControl(scope: string): UseProgressControlActions {
     }
 }
 
-const ensureScopeState = (scope: string) => {
-    if(!progressControlState[scope]) {
-        progressControlState[scope] = {}
-    }
-}
-
 export function useProgressActions(): UseProgressControlGlobalActionsStateLess {
     const setProgressControl = React.useContext(ProgressControlContextSet)
 
     const isAlreadyDone = React.useCallback((scope: string, id: string | number): boolean => {
-        return progressControlState?.[scope]?.[String(id)] === PROGRESS_START || progressControlState?.[scope]?.[String(id)] === PROGRESS_DONE
+        return progressControlState[scope]?.[String(id)] === PROGRESS_START || progressControlState[scope]?.[String(id)] === PROGRESS_DONE
     }, [])
 
     const isStarted = React.useCallback((scope: string, id: string | number): boolean => {
-        return progressControlState?.[scope]?.[String(id)] === PROGRESS_START
+        return progressControlState[scope]?.[String(id)] === PROGRESS_START
     }, [])
 
     const scopeSetter = React.useCallback((scope: string, id: string | number, progress: PROGRESS, context: any) => {
