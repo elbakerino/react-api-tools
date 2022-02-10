@@ -37,8 +37,8 @@ export const isEqual = (prevProps: { [k: string]: any }, nextProps: { [k: string
 /**
  * Immutable compatible `React.memo` comparison
  */
-export const memo = <C extends React.ComponentType = React.ComponentType>(Component: C): C => {
+export const memo = <P extends {} = {}>(Component: React.ComponentType<P>): React.ComponentType<P> => {
     const Memoized = React.memo(Component, isEqual)
-    Memoized.displayName = getDisplayName(Component)
-    return Memoized as unknown as C
+    Memoized.displayName = getDisplayName(Component as React.ComponentType)
+    return Memoized as unknown as React.ComponentType<P>
 }
