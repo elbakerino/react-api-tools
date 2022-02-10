@@ -17,7 +17,7 @@ packages.forEach(pkg => {
 
 const base = {
     transformIgnorePatterns: [
-        'node_modules/?!(@icon1)',
+        //'node_modules/?!(@icon1)',
     ],
     /*transform: {
         '^.+\\.tsx?$': 'ts-jest',
