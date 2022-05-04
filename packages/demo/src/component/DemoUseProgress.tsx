@@ -1,7 +1,7 @@
 import React from 'react'
-import Button from '@material-ui/core/Button'
-import Typography from '@material-ui/core/Typography'
-import Box from '@material-ui/core/Box'
+import Button from '@mui/material/Button'
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
 import { PROGRESS_DONE, PROGRESS_ERROR, PROGRESS_NONE, PROGRESS_START, useProgress } from 'react-progress-state'
 
 export const DemoUseProgress = () => {

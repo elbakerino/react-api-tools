@@ -1,12 +1,14 @@
 import React from 'react'
 import { LoadingCircular } from '@control-ui/kit/Loading'
-import IconButton from '@material-ui/core/IconButton'
-import InvertColorsIcon from '@material-ui/icons/InvertColors'
-import { Link as RouterLink } from 'react-router-dom'
+import { RouteCascade } from '@control-ui/routes/RouteCascade'
+import IconButton from '@mui/material/IconButton'
+import InvertColorsIcon from '@mui/icons-material/InvertColors'
+import { Link as RouterLink, useLocation } from 'react-router-dom'
 import { Header } from '@control-ui/app/Header'
 import { useSwitchTheme } from '@control-ui/app/AppTheme'
-import { Layout } from '@control-ui/app/Layout'
+import { Layout, LayoutProps } from '@control-ui/app/Layout'
 import Loadable from 'react-loadable'
+import { RouteComponentProps } from 'react-router'
 
 const CustomHeader: React.ComponentType<{}> = () => {
     const {switchTheme} = useSwitchTheme()
@@ -32,16 +34,25 @@ const CustomHeader: React.ComponentType<{}> = () => {
     </Header>
 }
 
-const PageNotFound = Loadable({
+const PageNotFound: React.ComponentType<RouteComponentProps> = Loadable({
     loader: () => import('../page/PageNotFound'),
     loading: () => <LoadingCircular title={'Not Found'}/>,
 })
 
+const RoutingBase: LayoutProps['Content'] = (p) =>
+    // @ts-ignore
+    <RouteCascade routeId={'content'} childProps={p} Fallback={PageNotFound}/>
+export const Routing: LayoutProps['Content'] = React.memo(RoutingBase)
+
 export const CustomLayout: React.ComponentType<{}> = () => {
+    const location = useLocation()
     return <>
         <Layout
             Header={CustomHeader}
-            NotFound={PageNotFound}
+            // Drawer={CustomDrawer}
+            Content={Routing}
+            mainContentStyle={{position: 'relative'}}
+            locationPath={location.pathname}
         />
     </>
 }

@@ -1,8 +1,8 @@
 import React from 'react'
-import Typography from '@material-ui/core/Typography'
+import Typography from '@mui/material/Typography'
 import { HeadMeta } from '@control-ui/kit/HeadMeta'
-import { Box, Container } from '@material-ui/core'
-import { DemoUseApi } from '../component/DemoUseApi'
+import { Box, Container } from '@mui/material'
+import { DemoUseApi, DemoUseApiCancellable, DemoUseApiProgress } from '../component/DemoUseApi'
 import { DemoUseProgress } from '../component/DemoUseProgress'
 
 const PageMain: React.ComponentType<{ match: any }> = () => {
@@ -23,6 +23,14 @@ const PageMain: React.ComponentType<{ match: any }> = () => {
             <Box my={2} mx={1}>
                 <Typography variant={'h2'}>React `useApi`</Typography>
                 <DemoUseApi/>
+            </Box>
+            <Box my={2} mx={1}>
+                <Typography variant={'h2'}>React `useApiCancellable`</Typography>
+                <DemoUseApiCancellable/>
+            </Box>
+            <Box my={2} mx={1}>
+                <Typography variant={'h2'}>React `useApi`+`useProgress`</Typography>
+                <DemoUseApiProgress/>
             </Box>
             <Box my={2} mx={1}>
                 <Typography variant={'h2'}>React `useProgress`</Typography>

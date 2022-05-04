@@ -1,6 +1,6 @@
 import React from 'react'
 import { LoadingCircular } from '@control-ui/kit/Loading/LoadingCircular'
-import { TypographyTypeMap } from '@material-ui/core/Typography'
+import { TypographyTypeMap } from '@mui/material/Typography'
 import { LoadingComponentProps } from 'react-loadable'
 
 export const loading = (title: string): React.ComponentType<LoadingComponentProps & {

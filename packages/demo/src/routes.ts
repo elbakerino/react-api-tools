@@ -1,6 +1,6 @@
 import React from 'react'
 import Loadable, { LoadableComponent, LoadingComponentProps } from 'react-loadable'
-import { Route } from '@control-ui/app/RouterProvider'
+import { Route } from '@control-ui/routes/Route'
 
 export type makeLoaderComponent = (title: string) => React.ComponentType<LoadingComponentProps>
 
@@ -18,12 +18,14 @@ export const routes = (loading: makeLoaderComponent): CustomRoute => ({
     routes: [
         {
             path: '/',
-            content: {
-                exact: true,
-                component: Loadable({
-                    loader: () => import('./page/PageMain'),
-                    loading: loading('Loading Home'),
-                }),
+            config: {
+                content: {
+                    exact: true,
+                    component: Loadable({
+                        loader: () => import('./page/PageMain'),
+                        loading: loading('Loading Home'),
+                    }),
+                },
             },
         },
     ],

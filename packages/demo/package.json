@@ -7,15 +7,18 @@
     "author": "Michael Becker <michael@bemit.codes>",
     "license": "MIT",
     "dependencies": {
-        "react": "^16.12",
-        "@types/react": "^16.12",
+        "react": "^17.0",
+        "@types/react": "^17.0",
         "react-dom": "^16.12",
-        "react-api-fetch": "~0.0.1",
-        "react-progress-state": "~0.0.1",
+        "react-api-fetch": "~0.1.0",
+        "react-progress-state": "~0.1.0",
         "react-uid": "^2.3.0",
-        "@material-ui/core": "^4.8.0",
-        "@material-ui/icons": "^5.0.0-beta.5",
-        "@material-ui/lab": "^4.0.0-alpha.60",
+        "@emotion/react": "^11.9.0",
+        "@emotion/styled": "^11.8.1",
+        "@mui/material": "^5.1",
+        "@mui/styles": "^5.1",
+        "@mui/icons-material": "^5.1",
+        "@mui/lab": "^5.0.0-alpha.80",
         "react-router": "^5.1.2",
         "react-i18next": "^11.8.12",
         "i18next": "^19.8.4",
@@ -26,7 +29,8 @@
         "react-router-dom": "^5.1.2",
         "@types/react-loadable": "^5.5.5",
         "react-loadable": "^5.5.0",
-        "@control-ui/app": "0.0.19",
-        "@control-ui/kit": "0.0.20"
+        "@control-ui/app": "0.0.23",
+        "@control-ui/routes": "0.0.4",
+        "@control-ui/kit": "0.0.24"
     }
 }

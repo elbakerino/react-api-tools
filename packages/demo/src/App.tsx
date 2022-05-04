@@ -22,11 +22,14 @@ const i18n: I18nProviderContext = {
     expiration: 1000,
 }
 
-const CustomApp: React.ComponentType<{}> = () => <App
-    routes={routes(loading)}
-    Layout={CustomLayout}
-    i18n={i18n}
-    Provider={Provider}
-/>
+const CustomApp: React.ComponentType<{}> = () =>
+    <BrowserRouter basename={'/'}>
+        <App
+            routes={routes(loading)}
+            Layout={CustomLayout}
+            i18n={i18n}
+            Provider={Provider}
+        />
+    </BrowserRouter>
 
 export default CustomApp

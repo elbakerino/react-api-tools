@@ -24,18 +24,17 @@ export function useProgressControlReset() {
     const resetScopes = React.useCallback((scopes: string[]): void => {
         setProgressControl(pc => {
             scopes.forEach((scope) => {
-                pc = pc.setIn([scope], Map())
-                progressControlState[scope] = {}
+                pc = pc.delete(scope)
+                delete progressControlState[scope]
             })
             return pc
         })
     }, [setProgressControl])
 
     const resetAll = React.useCallback((): void => {
-        Object.keys(progressControlState).forEach((scope) => {
-            // todo: check if `delete progressControlState[scope]` can be used without non-remounting issues with the first initializing
-            progressControlState[scope] = {}
-        })
+        Object.keys(progressControlState).forEach((scope) =>
+            delete progressControlState[scope],
+        )
         setProgressControl(progressControlInitial)
     }, [setProgressControl])
 

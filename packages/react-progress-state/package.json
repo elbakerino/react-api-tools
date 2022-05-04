@@ -1,6 +1,6 @@
 {
     "name": "react-progress-state",
-    "version": "0.0.8",
+    "version": "0.1.0",
     "description": "",
     "homepage": "https://bemit.codes",
     "author": "Michael Becker <michael@bemit.codes>",
@@ -9,16 +9,27 @@
         "react-component",
         "react"
     ],
-    "dependencies": {
-        "immutable": "^4.0.0",
-        "react": "^16.12",
-        "react-use-immutable": "~0.0.2",
-        "@types/react": "^16.12"
-    },
     "main": "index.js",
     "module": "esm/index.js",
     "scripts": {
         "dtsgen": "tsc -d --emitDeclarationOnly --pretty && merge-dirs build/dts/react-progress-state/src build && rm -rf build/dts && rm -rf build/**/*.test.*"
+    },
+    "dependencies": {
+        "immutable": "^4.0.0",
+        "react": "^17.0",
+        "@types/react": "^17.0",
+        "react-use-immutable": "~0.1.0"
+    },
+    "peerDependencies": {
+        "immutable": "^4.0.0",
+        "react": "^16.8 || ^17.0 || ^18.0",
+        "react-use-immutable": "~0.1.0",
+        "@types/react": "^16.8 || ^17.0 || ^18.0"
+    },
+    "peerDependenciesMeta": {
+        "@types/react": {
+            "optional": true
+        }
     },
     "publishConfig": {
         "access": "public"

@@ -19,6 +19,7 @@ export const useApiCancellable = <HR = {}>(
     fetch: Promise<{
         data: D
         code: number
+        cancelled?: boolean
     } & HR>
     cancel: () => void
 } => {
