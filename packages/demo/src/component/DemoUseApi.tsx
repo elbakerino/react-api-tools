@@ -4,7 +4,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { extractHeaders } from 'react-api-fetch/extractHeaders'
 import { headersJson } from 'react-api-fetch/headersJson'
-import { PROGRESS_DONE, PROGRESS_ERROR, useProgress } from 'react-progress-state'
+import { ps, useProgress } from 'react-progress-state'
 
 export const DemoUseApi = () => {
     const fetch = useApi({extractHeaders, headers: headersJson})
@@ -65,13 +65,13 @@ export const DemoUseApiProgress = () => {
                 setFid(fid)
                 fetch<{ uuid: string }>('https://httpbin.org/uuid', 'GET')
                     .then(r => {
-                        const isPid = setP(PROGRESS_DONE, undefined, fid)
+                        const isPid = setP(ps.done, undefined, fid)
                         console.log(r, isPid)
                         if(!isPid) return
                         setUuid(r.data.uuid)
                     })
                     .catch(r => {
-                        const isPid = setP(PROGRESS_ERROR, r, fid)
+                        const isPid = setP(ps.error, r, fid)
                         console.error(r, isPid)
                     })
             }}

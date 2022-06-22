@@ -2,7 +2,7 @@ import React from 'react'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import { PROGRESS_DONE, PROGRESS_ERROR, PROGRESS_NONE, PROGRESS_START, useProgress } from 'react-progress-state'
+import { ps, useProgress } from 'react-progress-state'
 
 export const DemoUseProgress = () => {
     const [p, setP] = useProgress()
@@ -11,24 +11,24 @@ export const DemoUseProgress = () => {
             <Button
                 onClick={() => {
                     switch(p.progress) {
-                        case PROGRESS_ERROR:
-                        case PROGRESS_NONE:
-                            setP(PROGRESS_START)
+                        case ps.error:
+                        case ps.none:
+                            setP(ps.start)
                             break
-                        case PROGRESS_START:
-                            setP(PROGRESS_DONE)
+                        case ps.start:
+                            setP(ps.done)
                             break
-                        case PROGRESS_DONE:
-                            setP(PROGRESS_NONE)
+                        case ps.done:
+                            setP(ps.none)
                             break
                     }
                 }}
             >
                 {
-                    p.progress === PROGRESS_NONE ||
-                    p.progress === PROGRESS_ERROR ?
+                    p.progress === ps.none ||
+                    p.progress === ps.error ?
                         'Load' :
-                        p.progress === PROGRESS_DONE ?
+                        p.progress === ps.done ?
                             'Reset' :
                             'Done'
                 }
@@ -37,7 +37,7 @@ export const DemoUseProgress = () => {
             <Button
                 onClick={() => {
                     setP(
-                        PROGRESS_ERROR,
+                        ps.error,
                         {
                             error: 'Something is wrong',
                         },
