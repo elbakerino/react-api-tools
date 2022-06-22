@@ -135,7 +135,8 @@ export function useProgressControl(scope: string): UseProgressControlActions {
     }, [scope, set, ref])
 
     const getProgress = React.useCallback<getProgress>((id) => {
-        const progress = (id && currentProgress?.[String(id)]) || [false]
+        if(typeof id === 'undefined') return {progress: ps.none, context: undefined}
+        const progress = (id && currentProgress?.[String(id)]) || [ps.none]
         return {progress: progress[0], context: progress[1]}
     }, [currentProgress])
 
