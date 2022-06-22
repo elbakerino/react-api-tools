@@ -32,7 +32,7 @@ export function useProgressControlReset() {
         Object.keys(ref.current).forEach((scope) =>
             delete ref.current[scope],
         )
-        set(progressControlInitial)
+        set({...progressControlInitial})
     }, [set, ref])
 
     return {resetScopes, resetAll}
@@ -135,7 +135,7 @@ export function useProgressControl(scope: string): UseProgressControlActions {
     }, [scope, set, ref])
 
     const getProgress = React.useCallback<getProgress>((id) => {
-        const progress = (id && currentProgress[String(id)]) || [false]
+        const progress = (id && currentProgress?.[String(id)]) || [false]
         return {progress: progress[0], context: progress[1]}
     }, [currentProgress])
 
