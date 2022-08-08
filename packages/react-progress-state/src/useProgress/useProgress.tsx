@@ -89,9 +89,8 @@ export function useProgress<CX = any>(reset?: any): [
         return pidRef.current = pidRef.current + 1
     }, [setP, pidRef])
 
-    const setProgress: setProgress = React.useCallback((progress, context, pid = 0) => {
-        if(!mountedRef.current || pidRef.current !== pid) {
-            // todo: maybe setting to PROGRESS_NONE when still mounted?
+    const setProgress: setProgress = React.useCallback((progress, context, pid) => {
+        if(!mountedRef.current || (typeof pid === 'number' && pidRef.current !== pid)) {
             return false
         }
         setP({
