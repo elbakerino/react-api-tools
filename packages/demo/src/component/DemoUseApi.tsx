@@ -5,9 +5,10 @@ import Typography from '@mui/material/Typography'
 import { extractHeaders } from 'react-api-fetch/extractHeaders'
 import { headersJson } from 'react-api-fetch/headersJson'
 import { ps, useProgress } from 'react-progress-state'
+import { dataConverterJson } from 'react-api-fetch/fetcher'
 
 export const DemoUseApi = () => {
-    const fetch = useApi({extractHeaders, headers: headersJson})
+    const fetch = useApi({extractHeaders, dataConvert: dataConverterJson, headers: headersJson})
     const [uuid, setUuid] = React.useState<string | undefined>(undefined)
     return <>
         <Button
@@ -28,7 +29,7 @@ export const DemoUseApi = () => {
 }
 
 export const DemoUseApiCancellable = () => {
-    const fetchBuild = useApiCancellable({extractHeaders, headers: headersJson})
+    const fetchBuild = useApiCancellable({extractHeaders, dataConvert: dataConverterJson, headers: headersJson})
     const [uuid, setUuid] = React.useState<string | undefined>(undefined)
     const cancelRef = React.useRef<undefined | (() => void)>(undefined)
     return <>
@@ -54,7 +55,7 @@ export const DemoUseApiCancellable = () => {
 }
 
 export const DemoUseApiProgress = () => {
-    const fetch = useApi({extractHeaders, headers: headersJson})
+    const fetch = useApi({extractHeaders, dataConvert: dataConverterJson, headers: headersJson})
     const [p, setP, startP] = useProgress()
     const [fid, setFid] = React.useState<number | undefined>(undefined)
     const [uuid, setUuid] = React.useState<string | undefined>(undefined)

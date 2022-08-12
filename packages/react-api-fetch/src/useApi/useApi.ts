@@ -1,14 +1,17 @@
 import React from 'react'
 import { fetcherFetch } from 'react-api-fetch/fetcherFetch'
-import { dataConverterJson, FetcherFetchMethod, FetcherHooks } from 'react-api-fetch/fetcher'
+import { FetcherFetchMethod, FetcherHooks } from 'react-api-fetch/fetcher'
+
+export interface UseApiOptions<HR = {}> {
+    bearer?: string
+    audience?: string
+    extractHeaders?: FetcherHooks<HR>['extractHeaders']
+    dataConvert?: FetcherHooks<HR>['dataConvert']
+    headers?: HeadersInit
+}
 
 export const useApi = <HR = {}>(
-    {bearer, audience, extractHeaders, headers}: {
-        bearer?: string
-        audience?: string
-        extractHeaders?: FetcherHooks<HR>['extractHeaders']
-        headers?: HeadersInit
-    } = {},
+    {bearer, audience, extractHeaders, dataConvert, headers}: UseApiOptions<HR> = {},
     // todo: the return type should use `fetcherInterface`
 ): <D = {}>(
     url: string,
@@ -36,8 +39,8 @@ export const useApi = <HR = {}>(
                 audience: audience,
             }, {
                 extractHeaders: extractHeaders,
-                dataConvert: dataConverterJson,
+                dataConvert: dataConvert,
             },
         )
-    }, [audience, bearer, extractHeaders, headers])
+    }, [audience, bearer, dataConvert, extractHeaders, headers])
 }

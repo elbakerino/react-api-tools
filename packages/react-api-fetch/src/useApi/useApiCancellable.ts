@@ -1,14 +1,10 @@
 import React from 'react'
 import { fetcherFetch } from 'react-api-fetch/fetcherFetch'
-import { dataConverterJson, FetcherFetchMethod, FetcherHooks } from 'react-api-fetch/fetcher'
+import { FetcherFetchMethod } from 'react-api-fetch/fetcher'
+import { UseApiOptions } from 'react-api-fetch/useApi/useApi'
 
 export const useApiCancellable = <HR = {}>(
-    {bearer, audience, extractHeaders, headers}: {
-        bearer?: string
-        audience?: string
-        extractHeaders?: FetcherHooks<HR>['extractHeaders']
-        headers?: HeadersInit
-    } = {},
+    {bearer, audience, extractHeaders, dataConvert, headers}: UseApiOptions<HR> = {},
     // todo: the return type should use `fetcherInterface`
 ): <D = {}>(
     url: string,
@@ -42,7 +38,7 @@ export const useApiCancellable = <HR = {}>(
                 audience: audience,
             }, {
                 extractHeaders: extractHeaders,
-                dataConvert: dataConverterJson,
+                dataConvert: dataConvert,
             },
         ).then((r) => ({
             ...r,
@@ -51,5 +47,5 @@ export const useApiCancellable = <HR = {}>(
         const cancel = () => cancelled = true
 
         return {fetch, cancel}
-    }, [audience, bearer, extractHeaders, headers])
+    }, [audience, bearer, dataConvert, extractHeaders, headers])
 }
