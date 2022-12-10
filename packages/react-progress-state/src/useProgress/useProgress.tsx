@@ -50,26 +50,28 @@ export type PROGRESS_CONTEXT = ProgressStateWithContext
 
 export type setProgress<CX = any> = (progress: ProgressStateValues, context?: CX, pid?: number) => boolean
 export type startProgress<CX = any> = (context?: CX) => number
+export type resetProgress<CX = any> = (context?: CX) => void
 
-export function useProgress<CX = any>(reset?: any): [
+export function useProgress<CX = any>(reset?: any, initial: ProgressStateValues = ps.none): [
     ProgressStateWithContext<CX>,
     setProgress<CX>,
     startProgress<CX>,
+    resetProgress<CX>,
 ] {
     const pidRef = React.useRef(0)
     const mountedRef = React.useRef(true)
 
     const [progress, setP] = React.useState<ProgressStateWithContext<CX>>({
-        progress: ps.none,
+        progress: initial,
         context: undefined,
     })
 
     React.useEffect(() => {
+        mountedRef.current = true
         return () => {
-            pidRef.current = 0
             mountedRef.current = false
         }
-    }, [pidRef, setP, mountedRef])
+    }, [mountedRef])
 
     React.useEffect(() => {
         setP({
@@ -99,5 +101,16 @@ export function useProgress<CX = any>(reset?: any): [
         return true
     }, [setP, pidRef, mountedRef])
 
-    return [progress, setProgress, startProgress]
+    const resetProgress: resetProgress = React.useCallback((context) => {
+        pidRef.current = pidRef.current + 1
+        if(!mountedRef.current) {
+            return
+        }
+        setP({
+            progress: ps.none,
+            context: context,
+        })
+    }, [setP, pidRef, mountedRef])
+
+    return [progress, setProgress, startProgress, resetProgress]
 }
