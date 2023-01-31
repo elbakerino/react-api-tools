@@ -23,7 +23,7 @@ export const DemoUseApi = () => {
             Send
         </Button>
         <Typography>
-            Result: {uuid || '-'}
+            result: {uuid || '-'}
         </Typography>
     </>
 }
@@ -36,7 +36,8 @@ export const DemoUseApiCancellable = () => {
         <Button
             onClick={() => {
                 if(cancelRef.current) cancelRef.current()
-                const {cancel, fetch} = fetchBuild<{ uuid: string }>('https://httpbin.org/uuid', 'GET')
+                const controller = new AbortController()
+                const {cancel, fetch} = fetchBuild<{ uuid: string }>('https://httpbin.org/uuid', 'GET', undefined, undefined, controller)
                 cancelRef.current = cancel
                 window.setTimeout(() => {
                     fetch.then(({data, cancelled}) => {
@@ -49,32 +50,50 @@ export const DemoUseApiCancellable = () => {
             Send
         </Button>
         <Typography gutterBottom>
-            Result: {uuid || '-'}
+            result: {uuid || '-'}
         </Typography>
     </>
 }
 
-export const DemoUseApiProgress = () => {
+export const DemoUseApiProgress: React.FC<{ loadInitial?: boolean }> = ({loadInitial}) => {
     const fetch = useApi({extractHeaders, dataConvert: dataConverterJson, headers: headersJson})
     const [p, setP, startP] = useProgress()
     const [fid, setFid] = React.useState<number | undefined>(undefined)
     const [uuid, setUuid] = React.useState<string | undefined>(undefined)
+
+    const load = React.useCallback(() => {
+        const controller = new AbortController()
+        const fid = startP()
+        setFid(fid)
+        fetch<{ uuid: string }>('https://httpbin.org/uuid', 'GET', undefined, undefined, controller.signal)
+            .then(r => {
+                const isPid = setP(ps.done, undefined, fid)
+                console.log(r, isPid)
+                if(!isPid) return
+                setUuid(r.data.uuid)
+            })
+            .catch(r => {
+                if(controller.signal.aborted) {
+                    // todo: maybe add new `aborted` state
+                    setP(ps.none, undefined, fid)
+                    return
+                }
+                const isPid = setP(ps.error, r, fid)
+                console.error(r, isPid)
+            })
+        return {abort: controller.abort.bind(controller)}
+    }, [fetch, setP, startP])
+
+    React.useEffect(() => {
+        if(!loadInitial) return
+        const {abort} = load()
+        return abort
+    }, [loadInitial, load])
+
     return <>
         <Button
             onClick={() => {
-                const fid = startP()
-                setFid(fid)
-                fetch<{ uuid: string }>('https://httpbin.org/uuid', 'GET')
-                    .then(r => {
-                        const isPid = setP(ps.done, undefined, fid)
-                        console.log(r, isPid)
-                        if(!isPid) return
-                        setUuid(r.data.uuid)
-                    })
-                    .catch(r => {
-                        const isPid = setP(ps.error, r, fid)
-                        console.error(r, isPid)
-                    })
+                load()
             }}
         >
             Send
@@ -83,10 +102,10 @@ export const DemoUseApiProgress = () => {
             fid: {JSON.stringify(fid)}
         </Typography>
         <Typography gutterBottom>
-            Progress: {JSON.stringify(p)}
+            progress: {JSON.stringify(p)}
         </Typography>
         <Typography gutterBottom>
-            Result: {uuid || '-'}
+            result: {uuid || '-'}
         </Typography>
     </>
 }

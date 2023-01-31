@@ -1,6 +1,6 @@
 {
     "name": "react-progress-state",
-    "version": "0.2.4",
+    "version": "0.2.5",
     "description": "",
     "homepage": "https://bemit.codes",
     "author": "Michael Becker <michael@bemit.codes>",
@@ -17,8 +17,8 @@
     "dependencies": {
     },
     "devDependencies": {
-        "react": "^17.0",
-        "@types/react": "^17.0"
+        "react": "^18.0",
+        "@types/react": "^18.0"
     },
     "peerDependencies": {
         "react": "^16.8 || ^17.0 || ^18.0",

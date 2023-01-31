@@ -58,6 +58,7 @@ export function useProgress<CX = any>(reset?: any, initial: ProgressStateValues 
     startProgress<CX>,
     resetProgress<CX>,
 ] {
+    const refReset = React.useRef(reset)
     const pidRef = React.useRef(0)
     const mountedRef = React.useRef(true)
 
@@ -74,13 +75,13 @@ export function useProgress<CX = any>(reset?: any, initial: ProgressStateValues 
     }, [mountedRef])
 
     React.useEffect(() => {
+        if(reset !== refReset.current) {
+            pidRef.current = pidRef.current + 1
+        }
         setP({
             progress: ps.none,
             context: undefined,
         })
-        return () => {
-            pidRef.current = pidRef.current + 1
-        }
     }, [pidRef, reset, setP])
 
     const startProgress: startProgress = React.useCallback((context) => {

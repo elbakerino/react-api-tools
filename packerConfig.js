@@ -9,7 +9,7 @@ packer(
                 template: path.resolve(__dirname, 'packages', 'demo/public/index.html'),
                 contentBase: path.resolve(__dirname, 'packages', 'demo/public'),// dev-server
                 port: 3000,
-                main: path.resolve(__dirname, 'packages', 'demo/src/index.js'),
+                main: path.resolve(__dirname, 'packages', 'demo/src/index.tsx'),
                 dist: path.resolve(__dirname, 'dist', 'demo'),
                 servedPath: '/',// todo: make package.json homepage dependent,
                 vendors: [],

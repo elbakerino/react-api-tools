@@ -3,6 +3,7 @@ export const dataConverterJson: FetcherHooks['dataConvert'] = (data) => data ? J
 export type FetcherHooks<HR = {}> = {
     extractHeaders?: (headers: Headers) => HR
     dataConvert?: (data: any | undefined) => string | undefined
+    signal?: AbortSignal
 }
 
 export type FetcherFetchMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'

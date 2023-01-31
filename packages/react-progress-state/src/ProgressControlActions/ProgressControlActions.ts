@@ -46,6 +46,11 @@ export interface UseProgressControlActionsStateLess {
     /**
      * static function, does not trigger rerender
      */
+    isDone: (id: string | number) => boolean
+    /**
+     * static function, does not trigger rerender
+     * @deprecated
+     */
     isAlreadyDone: (id: string | number) => boolean
     setStart: (id: string | number, context?: any) => number
     setDone: (id: string | number, context?: any, pid?: number) => boolean
@@ -97,7 +102,12 @@ export function useProgressControl(scope: string): UseProgressControlActions {
     }, [pidsRef])
 
     const isAlreadyDone = React.useCallback((id: string | number): boolean => {
+        // todo: it is safer to only check for done - and maybe load multiple times initially when mounting multiple with the same loader
         return ref.current[scope]?.[String(id)] === ps.start || ref.current[scope]?.[String(id)] === ps.done
+    }, [scope, ref])
+
+    const isDone = React.useCallback((id: string | number): boolean => {
+        return ref.current[scope]?.[String(id)] === ps.done
     }, [scope, ref])
 
     const isStarted = React.useCallback((id: string | number): boolean => {
@@ -142,7 +152,7 @@ export function useProgressControl(scope: string): UseProgressControlActions {
 
     return {
         scopeProgress: currentProgress as ProgressControlContextDataScope,
-        isStarted, isAlreadyDone,
+        isStarted, isAlreadyDone, isDone,
         setStart, setDone, setError, getProgress,
         resetScope,
     }

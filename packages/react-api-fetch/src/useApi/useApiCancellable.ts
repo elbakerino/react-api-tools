@@ -11,6 +11,7 @@ export const useApiCancellable = <HR = {}>(
     method?: FetcherFetchMethod,
     data?: any,
     reqHeaders?: HeadersInit,
+    abortController?: AbortController,
 ) => {
     fetch: Promise<{
         data: D
@@ -24,8 +25,8 @@ export const useApiCancellable = <HR = {}>(
         method: FetcherFetchMethod = 'GET',
         data?: any,
         reqHeaders?: HeadersInit,
+        abortController?: AbortController,
     ) => {
-        // todo: for true "cancel request/uploads" it must use `xhr` instead of `fetch`, like in the media uploader
         let cancelled = false
         const fetch = fetcherFetch<D, HR>(
             url, method, data,
@@ -39,12 +40,16 @@ export const useApiCancellable = <HR = {}>(
             }, {
                 extractHeaders: extractHeaders,
                 dataConvert: dataConvert,
+                signal: abortController?.signal,
             },
         ).then((r) => ({
             ...r,
             cancelled: cancelled,
         }))
-        const cancel = () => cancelled = true
+        const cancel = () => {
+            cancelled = true
+            abortController?.abort()
+        }
 
         return {fetch, cancel}
     }, [audience, bearer, dataConvert, extractHeaders, headers])

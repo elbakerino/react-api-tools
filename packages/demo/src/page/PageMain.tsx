@@ -33,6 +33,10 @@ const PageMain: React.ComponentType<{ match: any }> = () => {
                 <DemoUseApiProgress/>
             </Box>
             <Box my={2} mx={1}>
+                <Typography variant={'h2'}>React `useApi`+`useProgress` w/ initial</Typography>
+                <DemoUseApiProgress loadInitial/>
+            </Box>
+            <Box my={2} mx={1}>
                 <Typography variant={'h2'}>React `useProgress`</Typography>
                 <DemoUseProgress/>
             </Box>

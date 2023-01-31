@@ -10,23 +10,28 @@ export interface UseApiOptions<HR = {}> {
     headers?: HeadersInit
 }
 
+export type ApiConnect<D = {}, HR = {}> =
+    <D1 extends D = D>(
+        url: string,
+        method?: FetcherFetchMethod,
+        data?: any,
+        reqHeaders?: HeadersInit,
+        signal?: AbortSignal,
+    ) => Promise<{
+        data: D1
+        code: number
+    } & HR>
+
 export const useApi = <HR = {}>(
     {bearer, audience, extractHeaders, dataConvert, headers}: UseApiOptions<HR> = {},
     // todo: the return type should use `fetcherInterface`
-): <D = {}>(
-    url: string,
-    method?: FetcherFetchMethod,
-    data?: any,
-    reqHeaders?: HeadersInit,
-) => Promise<{
-    data: D
-    code: number
-} & HR> => {
+): ApiConnect<{}, HR> => {
     return React.useCallback(<D = {}>(
         url: string,
         method: FetcherFetchMethod = 'GET',
         data?: any,
         reqHeaders?: HeadersInit,
+        signal?: AbortSignal,
     ) => {
         return fetcherFetch<D, HR>(
             url, method, data,
@@ -40,6 +45,7 @@ export const useApi = <HR = {}>(
             }, {
                 extractHeaders: extractHeaders,
                 dataConvert: dataConvert,
+                signal: signal,
             },
         )
     }, [audience, bearer, dataConvert, extractHeaders, headers])

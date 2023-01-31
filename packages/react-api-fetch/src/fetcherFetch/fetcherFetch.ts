@@ -20,6 +20,7 @@ export const fetcherFetch = <D = {}, HR = {}>(
                 ...(config?.audience ? {'Audience': config?.audience} : {}),
             },
             body: data ? JSON.stringify(data) : undefined,
+            signal: hooks?.signal,
         },
     )
         .then(res => {
