@@ -76,6 +76,7 @@ export function useProgress<CX = any>(reset?: any, initial: ProgressStateValues 
 
     React.useEffect(() => {
         if(reset !== refReset.current) {
+            refReset.current = reset
             pidRef.current = pidRef.current + 1
         }
         setP({
