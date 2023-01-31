@@ -4,6 +4,11 @@
     "description": "",
     "private": true,
     "main": "index.js",
+    "type": "module",
+    "exports": {
+        "./packerConfig.js": "./packerConfig.js",
+        "./jest.config.js": "./jest.config.js"
+    },
     "scripts": {
         "start": "npm run clean-dist && npm run link && npm run serve",
         "serve": "cross-env NODE_ENV=development REACT_APP_ICON1_API=http://localhost:3030 node packerConfig.js --serve",

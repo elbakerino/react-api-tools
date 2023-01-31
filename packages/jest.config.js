@@ -17,11 +17,8 @@ packages.forEach(pkg => {
 
 const base = {
     transformIgnorePatterns: [
-        //'node_modules/?!(@icon1)',
+        'node_modules',
     ],
-    /*transform: {
-        '^.+\\.tsx?$': 'ts-jest',
-    },*/
     moduleNameMapper: {
         '^react-api-fetch(.*)$': '<rootDir>/react-api-fetch/src$1',
         '^react-progress-state(.*)$': '<rootDir>/react-progress-state/src$1',
@@ -42,7 +39,7 @@ const base = {
     verbose: true,
 };
 
-module.exports = {
+export default {
     ...base,
     projects: [
         {

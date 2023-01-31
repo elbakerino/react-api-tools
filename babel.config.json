@@ -1,4 +1,7 @@
 {
+    "ignore": [
+        "node_modules"
+    ],
     "presets": [
         "@babel/preset-react",
         "@babel/preset-typescript"
@@ -10,8 +13,6 @@
         "@babel/plugin-transform-template-literals",
         "@babel/plugin-proposal-export-namespace-from",
         "@babel/plugin-proposal-export-default-from",
-        "@babel/plugin-transform-runtime",
-        "transform-es2015-template-literals",
         "@babel/plugin-proposal-optional-chaining",
         "@babel/plugin-proposal-nullish-coalescing-operator",
         [

@@ -1,5 +1,8 @@
-const path = require('path');
-const {packer, webpack} = require('lerna-packer');
+import path, {dirname} from 'path'
+import {packer, webpack} from 'lerna-packer'
+import {fileURLToPath} from 'url'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 packer(
     {
@@ -28,8 +31,6 @@ packer(
             },
         },
         packages: {
-            // the keys are the commonjs names that is applied to externals
-            // this is the same as `@babel/plugin-transform-modules-commonjs` applies
             reactApiFetch: {
                 name: 'react-api-fetch',
                 root: path.resolve(__dirname, 'packages', 'react-api-fetch'),
