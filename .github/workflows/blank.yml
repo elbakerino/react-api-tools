@@ -20,20 +20,20 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [18.x]
         steps:
-            -   uses: actions/checkout@v2
+            -   uses: actions/checkout@v3
             -   name: Set Branch
                 id: vars
                 run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
             -   name: Use Node.js ${{ matrix.node-version }}
-                uses: actions/setup-node@v1
+                uses: actions/setup-node@v3
                 with:
                     node-version: ${{ matrix.node-version }}
                     registry-url: 'https://registry.npmjs.org'
 
             -   name: Cache CI node_modules
-                uses: actions/cache@v2
+                uses: actions/cache@v3
                 env:
                     cache-name: cache-node-modules
                 with:
@@ -50,7 +50,7 @@ jobs:
                     npm run build
 
             -   name: Send code coverage report to Codecov.io
-                uses: codecov/codecov-action@v1
+                uses: codecov/codecov-action@v3
                 with:
                     token: ${{ secrets.CODECOV_TOKEN }}
 
