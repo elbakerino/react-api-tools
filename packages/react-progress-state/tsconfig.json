@@ -7,6 +7,10 @@
         "src/**/*.test.*"
     ],
     "compilerOptions": {
-        "outDir": "build/dts"
+        "rootDir": "./",
+        "outDir": "build/dts",
+        "target": "ES2022",
+        "module": "NodeNext",
+        "moduleResolution": "NodeNext"
     }
 }

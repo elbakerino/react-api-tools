@@ -1,1 +1,1 @@
-export * from './ProgressControlActions'
+export * from './ProgressControlActions.js'

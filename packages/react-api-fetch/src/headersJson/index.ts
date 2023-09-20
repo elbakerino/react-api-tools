@@ -1,1 +1,1 @@
-export * from './headersJson'
+export * from './headersJson.js'

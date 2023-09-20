@@ -1,6 +1,6 @@
 import React from 'react'
 import { List, Map, Record } from 'immutable'
-import { getDisplayName } from './getDisplayName'
+import { getDisplayName } from './getDisplayName.js'
 
 const compare = (prev: any, next: any) => {
     if(List.isList(next) || Map.isMap(next) || Record.isRecord(next)) {

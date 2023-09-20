@@ -1,4 +1,4 @@
-import { isEqual } from './memo'
+import { isEqual } from 'react-use-immutable/memo'
 import { createMap } from 'react-use-immutable/createImmutable'
 import { List } from 'immutable'
 

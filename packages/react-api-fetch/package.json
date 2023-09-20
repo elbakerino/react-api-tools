@@ -1,6 +1,6 @@
 {
     "name": "react-api-fetch",
-    "version": "0.2.1",
+    "version": "0.3.0",
     "description": "",
     "homepage": "https://bemit.codes",
     "author": "Michael Becker <michael@bemit.codes>",
@@ -9,18 +9,49 @@
         "react-component",
         "react"
     ],
-    "main": "index.js",
-    "module": "esm/index.js",
+    "type": "module",
+    "exports": {
+        ".": {
+            "import": "./build/esm/index.js",
+            "types": "./src/index.ts",
+            "require": "./build/index.js"
+        },
+        "./extractHeaders": {
+            "import": "./build/esm/extractHeaders/index.js",
+            "types": "./src/extractHeaders/index.ts",
+            "require": "./build/extractHeaders/index.js"
+        },
+        "./fetcher": {
+            "import": "./build/esm/fetcher/index.js",
+            "types": "./src/fetcher/index.ts",
+            "require": "./build/fetcher/index.js"
+        },
+        "./fetcherFetch": {
+            "import": "./build/esm/fetcherFetch/index.js",
+            "types": "./src/fetcherFetch/index.ts",
+            "require": "./build/fetcherFetch/index.js"
+        },
+        "./headersJson": {
+            "import": "./build/esm/headersJson/index.js",
+            "types": "./src/headersJson/index.ts",
+            "require": "./build/headersJson/index.js"
+        },
+        "./useApi": {
+            "import": "./build/esm/useApi/index.js",
+            "types": "./src/useApi/index.ts",
+            "require": "./build/useApi/index.js"
+        }
+    },
     "scripts": {
-        "dtsgen": "tsc -d --emitDeclarationOnly --pretty && merge-dirs build/dts build && rm -rf build/dts && rm -rf build/**/*.test.*"
+        "dtsgen": "tsc -d --emitDeclarationOnly --pretty && merge-dirs build/dts/src build && rm -rf build/dts && rm -rf build/**/*.test.*"
     },
     "devDependencies": {
         "react": "^18.0",
         "@types/react": "^18.0"
     },
     "peerDependencies": {
-        "react": "^16.8 || ^17.0 || ^18.0",
-        "@types/react": "^16.8 || ^17.0 || ^18.0"
+        "react": " ^17.0 || ^18.0",
+        "@types/react": "^17.0 || ^18.0"
     },
     "peerDependenciesMeta": {
         "@types/react": {

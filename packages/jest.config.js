@@ -19,7 +19,12 @@ const base = {
     transformIgnorePatterns: [
         'node_modules',
     ],
+    transform: {
+        '^.+\\.ts$': 'ts-jest',
+        '^.+\\.tsx$': 'ts-jest',
+    },
     moduleNameMapper: {
+        '^(\\.{1,2}/.*)\\.js$': '$1',
         '^react-api-fetch(.*)$': '<rootDir>/react-api-fetch/src$1',
         '^react-progress-state(.*)$': '<rootDir>/react-progress-state/src$1',
         '^react-use-immutable(.*)$': '<rootDir>/react-use-immutable/src$1',
@@ -32,11 +37,9 @@ const base = {
         'json',
         'node',
     ],
-    collectCoverage: true,
     coveragePathIgnorePatterns: [
         '(tests/.*.mock).(jsx?|tsx?)$',
     ],
-    verbose: true,
 };
 
 export default {

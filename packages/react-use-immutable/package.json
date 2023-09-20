@@ -1,6 +1,6 @@
 {
     "name": "react-use-immutable",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "",
     "homepage": "https://bemit.codes",
     "author": "Michael Becker <michael@bemit.codes>",
@@ -9,10 +9,36 @@
         "react-component",
         "react"
     ],
-    "main": "index.js",
-    "module": "esm/index.js",
     "scripts": {
-        "dtsgen": "tsc -d --emitDeclarationOnly --pretty && merge-dirs build/dts build && rm -rf build/dts && rm -rf build/**/*.test.*"
+        "dtsgen": "tsc -d --emitDeclarationOnly --pretty && merge-dirs build/dts/src build && rm -rf build/dts && rm -rf build/**/*.test.*"
+    },
+    "type": "module",
+    "exports": {
+        ".": {
+            "import": "./build/esm/index.js",
+            "types": "./src/index.ts",
+            "require": "./build/index.js"
+        },
+        "./createImmutable": {
+            "import": "./build/esm/createImmutable/index.js",
+            "types": "./src/createImmutable/index.ts",
+            "require": "./build/createImmutable/index.js"
+        },
+        "./isImmutableDeep": {
+            "import": "./build/esm/isImmutableDeep/index.js",
+            "types": "./src/isImmutableDeep/index.ts",
+            "require": "./build/isImmutableDeep/index.js"
+        },
+        "./memo": {
+            "import": "./build/esm/memo/index.js",
+            "types": "./src/memo/index.ts",
+            "require": "./build/memo/index.js"
+        },
+        "./useImmutable": {
+            "import": "./build/esm/useImmutable/index.js",
+            "types": "./src/useImmutable/index.ts",
+            "require": "./build/useImmutable/index.js"
+        }
     },
     "dependencies": {
         "immutable": "^4.0.0"
@@ -22,8 +48,8 @@
         "@types/react": "^18.0"
     },
     "peerDependencies": {
-        "react": "^16.8 || ^17.0 || ^18.0",
-        "@types/react": "^16.8 || ^17.0 || ^18.0"
+        "react": "^17.0 || ^18.0",
+        "@types/react": "^17.0 || ^18.0"
     },
     "peerDependenciesMeta": {
         "@types/react": {

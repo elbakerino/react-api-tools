@@ -1,1 +1,1 @@
-export * from './fetcherFetch'
+export * from './fetcherFetch.js'

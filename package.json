@@ -32,8 +32,6 @@
     "author": "Michael Becker, https://mlbr.xyz",
     "license": "MIT",
     "devDependencies": {
-        "@babel/plugin-proposal-nullish-coalescing-operator": "^7.13.8",
-        "@babel/plugin-proposal-optional-chaining": "^7.13.8",
         "@types/react-router-dom": "^5.1.7",
         "@types/testing-library__jest-dom": "^5.14.0",
         "assert": "^2.0.0",
@@ -41,13 +39,14 @@
         "cross-env": "^6.0.3",
         "deployer-buddy": "^0.1.2",
         "lerna": "^3.22.1",
-        "lerna-packer": "0.4.6",
+        "lerna-packer": "0.8.0",
         "merge-dirs": "^0.2.1",
         "process": "^0.11.10",
         "@types/react": "^18.0",
         "rimraf": "^2.7.1",
-        "eslint-plugin-react-hooks": "^4.3.0",
-        "symlink-dir": "^3.1.1"
+        "eslint-plugin-react-hooks": "^4.6.0",
+        "symlink-dir": "^3.1.1",
+        "typescript": "~5.1.6"
     },
     "jest-runner-eslint": {
         "cliOptions": {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { fetcherFetch } from 'react-api-fetch/fetcherFetch'
 import { FetcherFetchMethod } from 'react-api-fetch/fetcher'
-import { UseApiOptions } from 'react-api-fetch/useApi/useApi'
+import { UseApiOptions } from 'react-api-fetch/useApi'
 
 export const useApiCancellable = <HR = {}>(
     {bearer, audience, extractHeaders, dataConvert, headers}: UseApiOptions<HR> = {},

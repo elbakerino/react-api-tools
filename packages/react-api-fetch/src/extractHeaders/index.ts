@@ -1,1 +1,1 @@
-export * from './extractHeaders'
+export * from './extractHeaders.js'

@@ -1,6 +1,6 @@
 {
     "name": "react-progress-state",
-    "version": "0.2.6",
+    "version": "0.3.0",
     "description": "",
     "homepage": "https://bemit.codes",
     "author": "Michael Becker <michael@bemit.codes>",
@@ -9,10 +9,31 @@
         "react-component",
         "react"
     ],
-    "main": "index.js",
-    "module": "esm/index.js",
     "scripts": {
-        "dtsgen": "tsc -d --emitDeclarationOnly --pretty && merge-dirs build/dts build && rm -rf build/dts && rm -rf build/**/*.test.*"
+        "dtsgen": "tsc -d --emitDeclarationOnly --pretty && merge-dirs build/dts/src build && rm -rf build/dts && rm -rf build/**/*.test.*"
+    },
+    "type": "module",
+    "exports": {
+        ".": {
+            "import": "./build/esm/index.js",
+            "types": "./src/index.ts",
+            "require": "./build/index.js"
+        },
+        "./ProgressControlActions": {
+            "import": "./build/esm/ProgressControlActions/index.js",
+            "types": "./src/ProgressControlActions/index.ts",
+            "require": "./build/ProgressControlActions/index.js"
+        },
+        "./ProgressControlProvider": {
+            "import": "./build/esm/ProgressControlProvider/index.js",
+            "types": "./src/ProgressControlProvider/index.ts",
+            "require": "./build/ProgressControlProvider/index.js"
+        },
+        "./useProgress": {
+            "import": "./build/esm/useProgress/index.js",
+            "types": "./src/useProgress/index.ts",
+            "require": "./build/useProgress/index.js"
+        }
     },
     "dependencies": {
     },
@@ -21,8 +42,8 @@
         "@types/react": "^18.0"
     },
     "peerDependencies": {
-        "react": "^16.8 || ^17.0 || ^18.0",
-        "@types/react": "^16.8 || ^17.0 || ^18.0"
+        "react": "^17.0 || ^18.0",
+        "@types/react": "^17.0 || ^18.0"
     },
     "peerDependenciesMeta": {
         "@types/react": {

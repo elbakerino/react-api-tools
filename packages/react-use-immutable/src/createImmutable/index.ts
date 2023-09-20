@@ -1,1 +1,1 @@
-export * from './createImmutable'
+export * from './createImmutable.js'

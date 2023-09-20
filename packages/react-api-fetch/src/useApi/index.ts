@@ -1,2 +1,2 @@
-export * from './useApi'
-export * from './useApiCancellable'
+export * from './useApi.js'
+export * from './useApiCancellable.js'
