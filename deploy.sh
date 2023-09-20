@@ -12,15 +12,15 @@ git checkout -- packages/webpackPartialConfig.js
 cd ./packages
 
 cd react-api-fetch
-cp package.json build/ && cp README.md build/
+cp README.md build/
 cd ../
 
 cd react-progress-state
-cp package.json build/ && cp package-lock.json build/ && cp README.md build/
+cp README.md build/
 cd ../
 
 cd react-use-immutable
-cp package.json build/ && cp package-lock.json build/ && cp README.md build/
+cp README.md build/
 cd ../
 
 cd ../
