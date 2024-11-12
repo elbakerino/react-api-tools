@@ -29,6 +29,7 @@ packer({
                     'process.env.NODE_DEBUG': JSON.stringify(process.env.NODE_ENV),
                 }),
             ],
+            aliasPackagesBuild: 'production',
         },
     },
     packages: {

@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useApi, useApiCancellable } from 'react-api-fetch/useApi'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { extractHeaders } from 'react-api-fetch/extractHeaders'
 import { headersJson } from 'react-api-fetch/headersJson'
 import { ps, useProgress } from 'react-progress-state'
-import { dataConverterJson } from 'react-api-fetch/fetcher'
+import { dataConverterJson, responseConverterJson } from 'react-api-fetch/fetcher'
 
 export const DemoUseApi = () => {
-    const fetch = useApi({extractHeaders, dataConvert: dataConverterJson, headers: headersJson})
+    const fetch = useApi({extractHeaders, dataConvert: dataConverterJson, responseConvert: responseConverterJson, headers: headersJson})
     const [uuid, setUuid] = React.useState<string | undefined>(undefined)
     return <>
         <Button
@@ -28,7 +28,8 @@ export const DemoUseApi = () => {
     </>
 }
 
-export const DemoUseApiCancellable = () => {
+export const DemoUseApiCancellableDeprecated = () => {
+    // eslint-disable-next-line deprecation/deprecation
     const fetchBuild = useApiCancellable({extractHeaders, dataConvert: dataConverterJson, headers: headersJson})
     const [uuid, setUuid] = React.useState<string | undefined>(undefined)
     const cancelRef = React.useRef<undefined | (() => void)>(undefined)
@@ -44,6 +45,40 @@ export const DemoUseApiCancellable = () => {
                         if(cancelled) return
                         setUuid(data.uuid)
                     })
+                }, 200)
+            }}
+        >
+            Send
+        </Button>
+        <Typography gutterBottom>
+            result: {uuid || '-'}
+        </Typography>
+    </>
+}
+
+export const DemoUseApiCancellable = () => {
+    const fetch = useApi({extractHeaders, dataConvert: dataConverterJson, headers: headersJson})
+    const [uuid, setUuid] = React.useState<string | undefined>(undefined)
+    const cancelRef = React.useRef<undefined | (() => void)>(undefined)
+    useEffect(() => {
+        return () => cancelRef.current?.()
+    }, [])
+    return <>
+        <Button
+            onClick={() => {
+                cancelRef.current?.()
+                const controller = new AbortController()
+                cancelRef.current = () => controller.abort()
+                window.setTimeout(() => {
+                    fetch<{ uuid: string }>('https://httpbin.org/uuid', 'GET', undefined, undefined, controller.signal)
+                        .then(({data}) => {
+                            if(controller.signal.aborted) return
+                            setUuid(data.uuid)
+                        })
+                        .catch((e) => {
+                            if(controller.signal.aborted) return
+                            return Promise.reject(e)
+                        })
                 }, 200)
             }}
         >
@@ -74,7 +109,6 @@ export const DemoUseApiProgress: React.FC<{ loadInitial?: boolean }> = ({loadIni
             })
             .catch(r => {
                 if(controller.signal.aborted) {
-                    // todo: maybe add new `aborted` state
                     setP(ps.none, undefined, fid)
                     return
                 }

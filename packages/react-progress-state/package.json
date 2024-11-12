@@ -1,6 +1,6 @@
 {
     "name": "react-progress-state",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "description": "",
     "homepage": "https://bemit.codes",
     "author": "Michael Becker <michael@bemit.codes>",
@@ -13,6 +13,8 @@
         "dtsgen": "tsc -d --emitDeclarationOnly --pretty && node ../../tools/merge-dirs.js build/dts/src build && rm -rf build/dts && rm -rf build/**/*.test.*"
     },
     "type": "module",
+    "main": "./esm/index.js",
+    "types": "./index.d.ts",
     "exports": {
         ".": {
             "types": "./src/index.ts",
@@ -33,6 +35,11 @@
             "types": "./src/useProgress/index.ts",
             "import": "./build/esm/useProgress/index.js",
             "require": "./build/useProgress/index.js"
+        },
+        "./useProgressNext": {
+            "types": "./src/useProgressNext/index.ts",
+            "import": "./build/esm/useProgressNext/index.js",
+            "require": "./build/useProgressNext/index.js"
         }
     },
     "dependencies": {

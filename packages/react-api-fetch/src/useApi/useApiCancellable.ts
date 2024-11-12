@@ -1,10 +1,22 @@
-import React from 'react'
+import { useCallback } from 'react'
 import { fetcherFetch } from 'react-api-fetch/fetcherFetch'
 import { FetcherFetchMethod } from 'react-api-fetch/fetcher'
 import { UseApiOptions } from 'react-api-fetch/useApi'
 
+/**
+ * @deprecated will be removed, use `useApi` with signal instead
+ */
 export const useApiCancellable = <HR = {}>(
-    {bearer, audience, extractHeaders, dataConvert, headers}: UseApiOptions<HR> = {},
+    {
+        // eslint-disable-next-line deprecation/deprecation
+        bearer,
+        authorization,
+        audience,
+        extractHeaders,
+        dataConvert,
+        responseConvert,
+        headers,
+    }: UseApiOptions<HR> = {},
     // todo: the return type should use `fetcherInterface`
 ): <D = {}>(
     url: string,
@@ -20,7 +32,7 @@ export const useApiCancellable = <HR = {}>(
     } & HR>
     cancel: () => void
 } => {
-    return React.useCallback(<D = {}>(
+    return useCallback(<D = {}>(
         url: string,
         method: FetcherFetchMethod = 'GET',
         data?: any,
@@ -36,10 +48,12 @@ export const useApiCancellable = <HR = {}>(
             } : reqHeaders,
             {
                 bearer: bearer,
+                authorization: authorization,
                 audience: audience,
             }, {
                 extractHeaders: extractHeaders,
                 dataConvert: dataConvert,
+                responseConvert: responseConvert,
                 signal: abortController?.signal,
             },
         ).then((r) => ({
@@ -52,5 +66,5 @@ export const useApiCancellable = <HR = {}>(
         }
 
         return {fetch, cancel}
-    }, [audience, bearer, dataConvert, extractHeaders, headers])
+    }, [audience, authorization, bearer, dataConvert, extractHeaders, headers, responseConvert])
 }

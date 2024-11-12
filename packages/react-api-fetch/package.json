@@ -1,6 +1,6 @@
 {
     "name": "react-api-fetch",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "description": "",
     "homepage": "https://bemit.codes",
     "author": "Michael Becker <michael@bemit.codes>",
@@ -10,6 +10,8 @@
         "react"
     ],
     "type": "module",
+    "main": "./esm/index.js",
+    "types": "./index.d.ts",
     "exports": {
         ".": {
             "import": "./build/esm/index.js",

@@ -1,58 +1,34 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 /**
- * @deprecated use `ps.none` instead
+ * Next state values, differences to deprecated:
+ * - false to none
+ * - start to loading
+ * - done/true to success
  */
-export const PROGRESS_NONE = false
-/**
- * @deprecated use `ps.start` instead
- */
-export const PROGRESS_START = 'start'
-/**
- * @deprecated use `ps.done` instead
- */
-export const PROGRESS_DONE = true
-/**
- * @deprecated use `ps.error` instead
- */
-export const PROGRESS_ERROR = 'error'
+export type ProgressStateValues = 'none' | 'loading' | 'success' | 'error'
 
-export type ProgressStateValues = false | 'start' | true | 'error'
-
-export interface ProgressStates {
-    none: false
-    start: 'start'
-    done: true
-    error: 'error'
+export type ProgressStates = {
+    readonly [K in ProgressStateValues]: ProgressStateValues
 }
 
 export const ps: ProgressStates = {
-    none: false,
-    start: 'start',
-    done: true,
+    none: 'none',
+    loading: 'loading',
+    success: 'success',
     error: 'error',
 }
-
-/**
- * @deprecated
- */
-export type PROGRESS = ProgressStateValues
 
 export interface ProgressStateWithContext<CX = any> {
     progress: ProgressStateValues
     context: CX | undefined
 }
 
-/**
- * @deprecated
- */
-export type PROGRESS_CONTEXT = ProgressStateWithContext
+export type setProgress<CX = unknown> = (progress: ProgressStateValues, context?: CX, pid?: number) => boolean
+export type startProgress<CX = unknown> = (context?: CX) => number
+export type resetProgress<CX = unknown> = (context?: CX) => void
 
-export type setProgress<CX = any> = (progress: ProgressStateValues, context?: CX, pid?: number) => boolean
-export type startProgress<CX = any> = (context?: CX) => number
-export type resetProgress<CX = any> = (context?: CX) => void
-
-export function useProgress<CX = any>(reset?: any, initial: ProgressStateValues = ps.none): [
+export function useProgress<CX = unknown>(reset?: any, initial: ProgressStateValues = ps.none): [
     ProgressStateWithContext<CX>,
     setProgress<CX>,
     startProgress<CX>,
@@ -85,15 +61,15 @@ export function useProgress<CX = any>(reset?: any, initial: ProgressStateValues 
         })
     }, [pidRef, reset, setP])
 
-    const startProgress: startProgress = useCallback((context) => {
+    const startProgress: startProgress<CX> = useCallback((context) => {
         setP({
-            progress: ps.start,
+            progress: ps.loading,
             context,
         })
         return pidRef.current = pidRef.current + 1
     }, [setP, pidRef])
 
-    const setProgress: setProgress = useCallback((progress, context, pid) => {
+    const setProgress: setProgress<CX> = useCallback((progress, context, pid) => {
         if(!mountedRef.current || (typeof pid === 'number' && pidRef.current !== pid)) {
             return false
         }
@@ -103,7 +79,7 @@ export function useProgress<CX = any>(reset?: any, initial: ProgressStateValues 
         return true
     }, [setP, pidRef, mountedRef])
 
-    const resetProgress: resetProgress = useCallback((context) => {
+    const resetProgress: resetProgress<CX> = useCallback((context) => {
         pidRef.current = pidRef.current + 1
         if(!mountedRef.current) {
             return

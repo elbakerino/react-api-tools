@@ -10,9 +10,16 @@ import {
     progressControlInitial, setProgressControl,
 } from 'react-progress-state/ProgressControlProvider'
 
+/**
+ * @deprecated will be removed without replacement
+ */
 export type getProgress<T = string | number> = (id?: T) => ProgressStateWithContext
 
+/**
+ * @deprecated will be removed without replacement
+ */
 export function useProgressControlReset() {
+    // eslint-disable-next-line deprecation/deprecation
     const {set, ref} = React.useContext(ProgressControlContextSet)
     const resetScopes = React.useCallback((scopes: string[]): void => {
         set(pc => {
@@ -32,12 +39,16 @@ export function useProgressControlReset() {
         Object.keys(ref.current).forEach((scope) =>
             delete ref.current[scope],
         )
+        // eslint-disable-next-line deprecation/deprecation
         set({...progressControlInitial})
     }, [set, ref])
 
     return {resetScopes, resetAll}
 }
 
+/**
+ * @deprecated will be removed without replacement
+ */
 export interface UseProgressControlActionsStateLess {
     /**
      * static function, does not trigger rerender
@@ -57,8 +68,13 @@ export interface UseProgressControlActionsStateLess {
     setError: (id: string | number, context?: any, pid?: number) => boolean
 }
 
+/**
+ * @deprecated will be removed without replacement
+ */
+// eslint-disable-next-line deprecation/deprecation
 export interface UseProgressControlActions extends UseProgressControlActionsStateLess {
     scopeProgress: ProgressControlContextDataScope
+    // eslint-disable-next-line deprecation/deprecation
     getProgress: getProgress
     resetScope: () => void
 }
@@ -69,6 +85,7 @@ const scopeSetterDispatcher = (
     progress: ProgressStateValues,
     context: any,
     updater: setProgressControl,
+    // eslint-disable-next-line deprecation/deprecation
     ref: ProgressControlContextSet['ref'],
 ) => {
     if(!ref.current[scope]) {
@@ -84,9 +101,15 @@ const scopeSetterDispatcher = (
     }))
 }
 
+/**
+ * @deprecated will be removed without replacement
+ */
+// eslint-disable-next-line deprecation/deprecation
 export function useProgressControl(scope: string): UseProgressControlActions {
     const pidsRef = React.useRef<{ [k: string]: number }>({})
+    // eslint-disable-next-line deprecation/deprecation
     const {set, ref} = React.useContext(ProgressControlContextSet)
+    // eslint-disable-next-line deprecation/deprecation
     const progressControl = React.useContext(ProgressControlContextState)
 
     const currentProgress = progressControl?.[scope]
@@ -144,6 +167,7 @@ export function useProgressControl(scope: string): UseProgressControlActions {
         ref.current[scope] = {}
     }, [scope, set, ref])
 
+    // eslint-disable-next-line deprecation/deprecation
     const getProgress = React.useCallback<getProgress>((id) => {
         if(typeof id === 'undefined') return {progress: ps.none, context: undefined}
         const progress = (id && currentProgress?.[String(id)]) || [ps.none]

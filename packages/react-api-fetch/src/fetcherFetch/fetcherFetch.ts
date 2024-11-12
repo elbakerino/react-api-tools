@@ -1,58 +1,64 @@
 import { FetcherConfig, FetcherFetchMethod, FetcherHooks } from 'react-api-fetch/fetcher'
 
-export const fetcherFetch = <D = {}, HR = {}>(
+export const fetcherFetch = <D = unknown, HR = {}>(
     url: string,
     method: FetcherFetchMethod,
-    data?: any,
+    data?: unknown,
     reqHeaders?: HeadersInit,
     config?: FetcherConfig,
     hooks?: FetcherHooks<HR>,
-) => {
-    let status = 0
-    let headerData: HR
+): Promise<{
+    data: D
+    code: number
+} & HR> => {
+    const headers = {
+        ...(
+            config?.authorization
+                ? {'Authorization': config?.authorization} :
+                // eslint-disable-next-line deprecation/deprecation
+                config?.bearer ? {'Authorization': config?.bearer} : {}
+        ),
+        ...(config?.audience ? {'Audience': config?.audience} : {}),
+        ...(reqHeaders || {}),
+    }
     return fetch(
         url,
         {
             method,
-            headers: {
-                ...(reqHeaders || {}),
-                ...(config?.bearer ? {'Authorization': config?.bearer} : {}),
-                ...(config?.audience ? {'Audience': config?.audience} : {}),
-            },
-            body: data ? JSON.stringify(data) : undefined,
+            headers: headers,
+            body:
+                data ?
+                    hooks?.dataConvert
+                        ? hooks?.dataConvert(data, headers)
+                        : JSON.stringify(data)
+                    : undefined,
             signal: hooks?.signal,
         },
     )
         .then(res => {
-            status = res.status
-            headerData = ((hooks?.extractHeaders ? hooks.extractHeaders(res.headers) : {}) as unknown as HR)
+            const status = res.status
+            const headerData = ((hooks?.extractHeaders ? hooks.extractHeaders(res.headers) : {}) as unknown as HR)
             return res.text()
-        })
-        .then(
-            text => {
-                let d
-                try {
-                    d = JSON.parse(text)
-                } catch(e) {
-                    console.error('JSON parse error of api result', e, text)
-                }
-                return d
-            },
-        )
-        .then(
-            data => ({
-                data,
-                ...(headerData || {}),
-                code: status,
-            }),
-        )
-        .then(
-            data =>
-                data.code !== 200 ?
-                    Promise.reject(data) :
-                    data as unknown as {
+                .then(
+                    text => ({
+                        ...(headerData || {}),
+                        data:
+                            text
+                                ? hooks?.responseConvert
+                                    ? hooks?.responseConvert(text, headerData)
+                                    : JSON.parse(text)
+                                : undefined,
+                        code: status,
+                    }) as {
                         data: D
                         code: number
-                    } & HR & any,
+                    } & HR,
+                )
+        })
+        .then(
+            data =>
+                data.code >= 200 && data.code < 300 ?
+                    data :
+                    Promise.reject(data),
         )
 }

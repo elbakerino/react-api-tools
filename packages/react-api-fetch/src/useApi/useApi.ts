@@ -1,35 +1,40 @@
-import React from 'react'
+import { useCallback } from 'react'
 import { fetcherFetch } from 'react-api-fetch/fetcherFetch'
-import { FetcherFetchMethod, FetcherHooks } from 'react-api-fetch/fetcher'
+import { FetcherConfig, FetcherFetchMethod, FetcherHooks } from 'react-api-fetch/fetcher'
 
-export interface UseApiOptions<HR = {}> {
-    bearer?: string
-    audience?: string
-    extractHeaders?: FetcherHooks<HR>['extractHeaders']
-    dataConvert?: FetcherHooks<HR>['dataConvert']
+export interface UseApiOptions<HR = {}> extends Pick<FetcherHooks<HR>, 'extractHeaders' | 'dataConvert' | 'responseConvert'>,
+    FetcherConfig {
     headers?: HeadersInit
 }
 
-export type ApiConnect<D = {}, HR = {}> =
-    <D1 extends D = D>(
+export type ApiConnect<HR = {}> =
+    <D = unknown>(
         url: string,
         method?: FetcherFetchMethod,
-        data?: any,
+        data?: unknown,
         reqHeaders?: HeadersInit,
         signal?: AbortSignal,
     ) => Promise<{
-        data: D1
+        data: D
         code: number
     } & HR>
 
 export const useApi = <HR = {}>(
-    {bearer, audience, extractHeaders, dataConvert, headers}: UseApiOptions<HR> = {},
-    // todo: the return type should use `fetcherInterface`
-): ApiConnect<{}, HR> => {
-    return React.useCallback(<D = {}>(
+    {
+        // eslint-disable-next-line deprecation/deprecation
+        bearer,
+        authorization,
+        audience,
+        extractHeaders,
+        dataConvert,
+        responseConvert,
+        headers,
+    }: UseApiOptions<HR> = {},
+): ApiConnect<HR> => {
+    return useCallback(<D = {}>(
         url: string,
         method: FetcherFetchMethod = 'GET',
-        data?: any,
+        data?: unknown,
         reqHeaders?: HeadersInit,
         signal?: AbortSignal,
     ) => {
@@ -41,12 +46,14 @@ export const useApi = <HR = {}>(
             } : reqHeaders,
             {
                 bearer: bearer,
+                authorization: authorization,
                 audience: audience,
             }, {
                 extractHeaders: extractHeaders,
                 dataConvert: dataConvert,
+                responseConvert: responseConvert,
                 signal: signal,
             },
         )
-    }, [audience, bearer, dataConvert, extractHeaders, headers])
+    }, [audience, authorization, bearer, dataConvert, extractHeaders, headers, responseConvert])
 }
