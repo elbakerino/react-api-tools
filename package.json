@@ -3,57 +3,41 @@
     "version": "0.0.3",
     "description": "",
     "private": true,
-    "main": "index.js",
     "type": "module",
-    "exports": {
-        "./packerConfig.js": "./packerConfig.js",
-        "./jest.config.js": "./jest.config.js"
-    },
     "scripts": {
-        "start": "npm run clean-dist && npm run link && npm run serve",
-        "serve": "cross-env NODE_ENV=development REACT_APP_ICON1_API=http://localhost:3030 node packerConfig.js --serve",
+        "start": "npm run clean-dist && npm run serve",
+        "serve": "cross-env NODE_ENV=development node packerConfig.js --serve",
         "prebuild": "npm run clean-dist",
         "build": "npm run build-babel && npm run build-backend && npm run dtsgen && npm run build-webpack",
         "build-babel": "cross-env NODE_ENV=production CI=true node packerConfig.js --build --babel",
         "build-backend": "cross-env NODE_ENV=production CI=true node packerConfig.js --build --backend",
         "build-webpack": "cross-env NODE_ENV=production CI=true node packerConfig.js --build --webpack",
-        "__postbuild": "cp -r dist/demo packages/icon1-api/build/demo && cd packages/icon1-api && cp package.json build/ && cp package-lock.json build/ && node build/cli build-icon-list",
         "profile": "cross-env NODE_OPTIONS='--max-old-space-size=4096' NODE_ENV=production node packerConfig.js --build --profile",
-        "clean": "npm run clean-dist && lerna clean -y",
-        "clean-dist": "node packerConfig.js --clean",
-        "bootstrap": "lerna bootstrap -- --legacy-peer-deps",
-        "hoist": "lerna bootstrap --hoist -- --legacy-peer-deps",
-        "link": "lerna link --force-local",
+        "clean-dist": "rimraf dist && rimraf coverage && node packerConfig.js --clean",
+        "clean-npm": "rimraf --glob **/*/node_modules",
+        "predev": "npm run clean",
+        "check": "npm run lint && npm run tscheck && npm run test",
+        "tscheck": "lerna run tscheck",
+        "lint": "cross-env NODE_ENV=test NODE_OPTIONS=\"--max-old-space-size=8192 --no-deprecation --experimental-vm-modules --unhandled-rejections=strict\" eslint -c=.eslintrc --ext=.tsx,.ts --max-warnings=0 'packages'",
+        "test": "cross-env NODE_ENV=development NODE_OPTIONS=\"--max-old-space-size=8192 --no-warnings --no-deprecation --experimental-vm-modules --unhandled-rejections=strict\" jest -c=\"jest.config.ts\" --passWithNoTests",
+        "tdd": "cross-env NODE_ENV=development npm run clean && npm test -- --watch --coverage=false",
         "dtsgen": "lerna run dtsgen",
-        "test": "jest -c=\"packages/jest.config.js\"",
-        "tdd": "npm test -- --watch --watchman --coverage=false",
         "release": "lerna publish from-package --contents build --no-git-reset"
     },
-    "author": "Michael Becker, https://mlbr.xyz",
+    "author": "Michael Becker, https://i-am-digital.eu",
     "license": "MIT",
     "devDependencies": {
-        "@types/react-router-dom": "^5.1.7",
-        "@types/testing-library__jest-dom": "^5.14.0",
-        "assert": "^2.0.0",
-        "cloud-buddy": "^0.0.7",
-        "cross-env": "^6.0.3",
-        "deployer-buddy": "^0.1.2",
-        "lerna": "^3.22.1",
-        "lerna-packer": "0.8.0",
-        "merge-dirs": "^0.2.1",
-        "process": "^0.11.10",
         "@types/react": "^18.0",
-        "rimraf": "^2.7.1",
-        "eslint-plugin-react-hooks": "^4.6.0",
-        "symlink-dir": "^3.1.1",
-        "typescript": "~5.1.6"
+        "@types/react-router-dom": "^5.3.3",
+        "cross-env": "^6.0.3",
+        "eslint-plugin-react-hooks": "^5.0.0",
+        "lerna": "^8.1.9",
+        "lerna-packer": "0.10.2",
+        "rimraf": "^5.0.10",
+        "ts-node": "^10.9.2",
+        "typescript": "~5.3.3"
     },
-    "jest-runner-eslint": {
-        "cliOptions": {
-            "maxWarnings": 0
-        }
-    },
-    "nodemonConfig": {
-        "delay": 120
-    }
+    "workspaces": [
+        "packages/*"
+    ]
 }

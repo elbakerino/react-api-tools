@@ -6,9 +6,6 @@ echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}
 
 echo "Token length: ${#NPM_TOKEN}"
 
-# todo: not manual resetting the file here
-git checkout -- packages/webpackPartialConfig.js
-
 cd ./packages
 
 cd react-api-fetch

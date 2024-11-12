@@ -10,33 +10,33 @@
         "react"
     ],
     "scripts": {
-        "dtsgen": "tsc -d --emitDeclarationOnly --pretty && merge-dirs build/dts/src build && rm -rf build/dts && rm -rf build/**/*.test.*"
+        "dtsgen": "tsc -d --emitDeclarationOnly --pretty && node ../../tools/merge-dirs.js build/dts/src build && rm -rf build/dts && rm -rf build/**/*.test.*"
     },
     "type": "module",
     "exports": {
         ".": {
-            "import": "./build/esm/index.js",
             "types": "./src/index.ts",
+            "import": "./build/esm/index.js",
             "require": "./build/index.js"
         },
         "./createImmutable": {
-            "import": "./build/esm/createImmutable/index.js",
             "types": "./src/createImmutable/index.ts",
+            "import": "./build/esm/createImmutable/index.js",
             "require": "./build/createImmutable/index.js"
         },
         "./isImmutableDeep": {
-            "import": "./build/esm/isImmutableDeep/index.js",
             "types": "./src/isImmutableDeep/index.ts",
+            "import": "./build/esm/isImmutableDeep/index.js",
             "require": "./build/isImmutableDeep/index.js"
         },
         "./memo": {
-            "import": "./build/esm/memo/index.js",
             "types": "./src/memo/index.ts",
+            "import": "./build/esm/memo/index.js",
             "require": "./build/memo/index.js"
         },
         "./useImmutable": {
-            "import": "./build/esm/useImmutable/index.js",
             "types": "./src/useImmutable/index.ts",
+            "import": "./build/esm/useImmutable/index.js",
             "require": "./build/useImmutable/index.js"
         }
     },

@@ -1,5 +1,4 @@
-import React from 'react'
-import { LoadingCircular } from '@control-ui/kit/Loading'
+import React, { lazy } from 'react'
 import { RouteCascade } from '@control-ui/routes/RouteCascade'
 import IconButton from '@mui/material/IconButton'
 import InvertColorsIcon from '@mui/icons-material/InvertColors'
@@ -7,7 +6,6 @@ import { Link as RouterLink, useLocation } from 'react-router-dom'
 import { Header } from '@control-ui/app/Header'
 import { useSwitchTheme } from '@control-ui/app/AppTheme'
 import { Layout, LayoutProps } from '@control-ui/app/Layout'
-import Loadable from 'react-loadable'
 import { RouteComponentProps } from 'react-router'
 
 const CustomHeader: React.ComponentType<{}> = () => {
@@ -34,10 +32,7 @@ const CustomHeader: React.ComponentType<{}> = () => {
     </Header>
 }
 
-const PageNotFound: React.ComponentType<RouteComponentProps> = Loadable({
-    loader: () => import('../page/PageNotFound'),
-    loading: () => <LoadingCircular title={'Not Found'}/>,
-})
+const PageNotFound: React.ComponentType<RouteComponentProps> = lazy(() => import('../page/PageNotFound'))
 
 const RoutingBase: LayoutProps['Content'] = (p) =>
     // @ts-ignore

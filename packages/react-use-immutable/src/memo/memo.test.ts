@@ -1,3 +1,4 @@
+import { describe, test, expect } from '@jest/globals'
 import { isEqual } from 'react-use-immutable/memo'
 import { createMap } from 'react-use-immutable/createImmutable'
 import { List } from 'immutable'

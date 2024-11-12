@@ -53,7 +53,7 @@
         "react/no-unknown-property": 1,
         "react/prefer-es6-class": 1,
         "react/prop-types": 0,
-        "react/react-in-jsx-scope": 1,
+        "react/react-in-jsx-scope": 0,
         "react/self-closing-comp": 1,
         "react/sort-comp": 0
     },
@@ -134,6 +134,7 @@
                     }
                 ],
                 "react/prop-types": "off",
+                "react/react-in-jsx-scope": "off",
                 "no-redundant-jsdoc": "off",
                 "@typescript-eslint/ban-types": "off",
                 "@typescript-eslint/ban-ts-comment": "off",

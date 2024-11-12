@@ -44,7 +44,7 @@ const universal = {
 
 const themeDark = createMuiTheme({
     palette: {
-        type: 'dark',
+        mode: 'dark',
         primary: {
             main: '#0ed292',
         },
@@ -70,7 +70,7 @@ const themeDark = createMuiTheme({
 
 const themeLight = createMuiTheme({
     palette: {
-        type: 'light',
+        mode: 'light',
         primary: {
             main: '#10845e',
         },
@@ -106,7 +106,7 @@ export const themes = {
 export const customTheme = (primary: string) => {
     const themeDark = createMuiTheme({
         palette: {
-            type: 'dark',
+            mode: 'dark',
             primary: {
                 //light: '#43c0d5',
                 main: primary,
@@ -134,7 +134,7 @@ export const customTheme = (primary: string) => {
 
     const themeLight = createMuiTheme({
         palette: {
-            type: 'light',
+            mode: 'light',
             primary: {
                 main: primary,
                 //dark: '#033944',

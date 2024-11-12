@@ -1,3 +1,47 @@
 {
-    "extends": "./packages/tsconfig.json"
+    "compilerOptions": {
+        "module": "esnext",
+        "target": "esnext",
+        "jsx": "react-jsx",
+        "removeComments": false,
+        "moduleResolution": "Node",
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "noEmit": false,
+        "experimentalDecorators": true,
+        "rootDir": "./",
+        "baseUrl": "./",
+        "allowSyntheticDefaultImports": true,
+        "noErrorTruncation": true,
+        "allowJs": true,
+        "declaration": true,
+        "resolveJsonModule": true,
+        "skipLibCheck": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "paths": {
+            "react-api-fetch": [
+                "packages/react-api-fetch/src/index.ts"
+            ],
+            "react-api-fetch/*": [
+                "packages/react-api-fetch/src/*/index.ts"
+            ],
+            "react-progress-state": [
+                "packages/react-progress-state/src/index.ts"
+            ],
+            "react-progress-state/*": [
+                "packages/react-progress-state/src/*/index.ts"
+            ],
+            "react-use-immutable": [
+                "packages/react-use-immutable/src"
+            ],
+            "react-use-immutable/*": [
+                "packages/react-use-immutable/src/*"
+            ]
+        }
+    },
+    "exclude": [
+        "**/build/",
+        "**/node_modules/"
+    ]
 }

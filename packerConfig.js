@@ -1,10 +1,9 @@
 import path, {dirname} from 'path'
 import {packer, webpack} from 'lerna-packer'
-import modulePackages from 'lerna-packer/packer/modulePackages.js'
+import {babelTargetsLegacyCjsFirst} from 'lerna-packer/packer/babelEsModules.js'
+import {makeModulePackageJson, copyRootPackageJson, transformerForLegacyCjsFirst} from 'lerna-packer/packer/modulePackages.js'
 import {fileURLToPath} from 'url'
 import fs from 'fs';
-
-const {makeModulePackageJson, copyRootPackageJson, transformForEsModule} = modulePackages
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -17,8 +16,7 @@ packer({
             port: 3000,
             main: path.resolve(__dirname, 'packages', 'demo/src/index.tsx'),
             dist: path.resolve(__dirname, 'dist', 'demo'),
-            publicPath: '/',// todo: make package.json homepage dependent,
-            vendors: [],
+            publicPath: '/',
             devServer: {
                 client: {
                     overlay: false,
@@ -38,22 +36,25 @@ packer({
             name: 'react-api-fetch',
             root: path.resolve(__dirname, 'packages', 'react-api-fetch'),
             entry: path.resolve(__dirname, 'packages', 'react-api-fetch/src/'),
+            babelTargets: babelTargetsLegacyCjsFirst,
         },
         reactProgressState: {
             name: 'react-progress-state',
             root: path.resolve(__dirname, 'packages', 'react-progress-state'),
             entry: path.resolve(__dirname, 'packages', 'react-progress-state/src/'),
+            babelTargets: babelTargetsLegacyCjsFirst,
         },
         reactUseImmutable: {
             name: 'react-use-immutable',
             root: path.resolve(__dirname, 'packages', 'react-use-immutable'),
             entry: path.resolve(__dirname, 'packages', 'react-use-immutable/src/'),
+            babelTargets: babelTargetsLegacyCjsFirst,
         },
     },
 }, __dirname, {
     afterEsModules: (packages, pathBuild, isServing) => {
         return Promise.all([
-            makeModulePackageJson(transformForEsModule)(
+            makeModulePackageJson(transformerForLegacyCjsFirst)(
                 Object.keys(packages).reduce(
                     (packagesFiltered, pack) =>
                         packages[pack].esmOnly ? packagesFiltered : {...packagesFiltered, [pack]: packages[pack]},
@@ -102,9 +103,10 @@ packer({
                                 } else if(typeof pkgExports === 'object') {
                                     pkgExportsFinal = Object.keys(pkgExports).reduce((pkgExportsNext, pkgExport) => {
                                         let pkgExportNext = changeFolder(pkgExports[pkgExport])
+                                        let cjs = undefined
                                         if(pkgExport === 'import' && !esmOnly) {
                                             if(!pkgExport['require']) {
-                                                pkgExportsNext['require'] = pkgExportNext
+                                                cjs = {'require': pkgExportNext}
                                             }
                                             pkgExportNext = pkgExportNext.startsWith('./esm/') ? pkgExportNext : './esm' + pkgExportNext.slice(1)
                                         }
@@ -113,6 +115,7 @@ packer({
                                             [pkgExport]:
                                                 pkgExportNext.endsWith('.ts') && !pkgExportNext.endsWith('.d.ts') ?
                                                     pkgExportNext.slice(0, -3) + '.d.ts' : pkgExportNext,
+                                            ...cjs || {},
                                         }
                                     }, {})
                                 } else {
