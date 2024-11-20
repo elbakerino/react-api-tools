@@ -1,6 +1,6 @@
 {
     "name": "react-progress-state",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "description": "",
     "homepage": "https://bemit.codes",
     "author": "Michael Becker <michael@bemit.codes>",
@@ -42,6 +42,7 @@
             "require": "./build/useProgressNext/index.js"
         }
     },
+    "sideEffects": false,
     "dependencies": {
     },
     "devDependencies": {

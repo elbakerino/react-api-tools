@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { ProgressStateValues as ProgressStateValuesLegacy } from 'react-progress-state'
 
 /**
  * Next state values, differences to deprecated:
@@ -26,7 +27,19 @@ export interface ProgressStateWithContext<CX = any> {
 
 export type setProgress<CX = unknown> = (progress: ProgressStateValues, context?: CX, pid?: number) => boolean
 export type startProgress<CX = unknown> = (context?: CX) => number
-export type resetProgress<CX = unknown> = (context?: CX) => void
+export type resetProgress<CX = unknown> = (context?: CX, pid?: number) => void
+
+/**
+ * @deprecated will be removed when legacy is removed
+ */
+export const legacyToNext = (progress: ProgressStateValuesLegacy): ProgressStateValues =>
+    progress === false
+        ? 'none'
+        : progress === 'start'
+            ? 'loading'
+            : progress === true
+                ? 'success'
+                : 'error'
 
 export function useProgress<CX = unknown>(reset?: any, initial: ProgressStateValues = ps.none): [
     ProgressStateWithContext<CX>,
@@ -34,9 +47,8 @@ export function useProgress<CX = unknown>(reset?: any, initial: ProgressStateVal
     startProgress<CX>,
     resetProgress<CX>,
 ] {
-    const refReset = useRef(reset)
     const pidRef = useRef(0)
-    const mountedRef = useRef(true)
+    const mountedRef = useRef(false)
 
     const [progress, setP] = useState<ProgressStateWithContext<CX>>({
         progress: initial,
@@ -44,51 +56,67 @@ export function useProgress<CX = unknown>(reset?: any, initial: ProgressStateVal
     })
 
     useEffect(() => {
-        mountedRef.current = true
-        return () => {
-            mountedRef.current = false
-        }
-    }, [mountedRef])
+        if(!mountedRef.current) return
 
-    useEffect(() => {
-        if(reset !== refReset.current) {
-            refReset.current = reset
-            pidRef.current = pidRef.current + 1
-        }
+        pidRef.current = pidRef.current + 1
         setP({
             progress: ps.none,
             context: undefined,
         })
-    }, [pidRef, reset, setP])
+    }, [reset])
 
-    const startProgress: startProgress<CX> = useCallback((context) => {
-        setP({
-            progress: ps.loading,
-            context,
-        })
-        return pidRef.current = pidRef.current + 1
-    }, [setP, pidRef])
-
-    const setProgress: setProgress<CX> = useCallback((progress, context, pid) => {
-        if(!mountedRef.current || (typeof pid === 'number' && pidRef.current !== pid)) {
-            return false
+    useEffect(() => {
+        mountedRef.current = true
+        return () => {
+            mountedRef.current = false
         }
-        setP({
-            progress, context,
-        })
-        return true
-    }, [setP, pidRef, mountedRef])
+    }, [])
 
-    const resetProgress: resetProgress<CX> = useCallback((context) => {
-        pidRef.current = pidRef.current + 1
-        if(!mountedRef.current) {
-            return
-        }
-        setP({
-            progress: ps.none,
-            context: context,
-        })
-    }, [setP, pidRef, mountedRef])
+    const {current: [setProgress, startProgress, resetProgress]} = useRef<[
+        setProgress: setProgress<CX>,
+        startProgress: startProgress<CX>,
+        resetProgress: resetProgress<CX>,
+    ]>([
+        // setProgress
+        (progress, context, pid) => {
+            if(!mountedRef.current || (typeof pid === 'number' && pidRef.current !== pid)) {
+                return false
+            }
+
+            setP({
+                progress,
+                context,
+            })
+
+            return true
+        },
+        // startProgress
+        (context) => {
+            if(!mountedRef.current) {
+                return -1
+            }
+
+            setP({
+                progress: ps.loading,
+                context,
+            })
+            return pidRef.current = pidRef.current + 1
+        },
+        // resetProgress
+        (context, pid) => {
+            if(!mountedRef.current || (typeof pid === 'number' && pidRef.current !== pid)) {
+                return false
+            }
+
+            pidRef.current += 1
+            setP({
+                progress: ps.none,
+                context,
+            })
+
+            return true
+        },
+    ])
 
     return [progress, setProgress, startProgress, resetProgress]
 }

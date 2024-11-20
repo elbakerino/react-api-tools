@@ -1,6 +1,6 @@
 {
     "name": "react-use-immutable",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "",
     "homepage": "https://bemit.codes",
     "author": "Michael Becker <michael@bemit.codes>",
@@ -40,6 +40,7 @@
             "require": "./build/useImmutable/index.js"
         }
     },
+    "sideEffects": false,
     "dependencies": {
         "immutable": "^4.0.0"
     },

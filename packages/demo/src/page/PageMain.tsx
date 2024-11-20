@@ -2,7 +2,7 @@ import React from 'react'
 import Typography from '@mui/material/Typography'
 import { HeadMeta } from '@control-ui/kit/HeadMeta'
 import { Box, Container } from '@mui/material'
-import { DemoUseApi, DemoUseApiCancellable, DemoUseApiCancellableDeprecated, DemoUseApiProgress } from '../component/DemoUseApi'
+import { DemoUseApi, DemoUseApiCancellable, DemoUseApiCancellableDeprecated, DemoUseApiProgress, DemoUseApiProgressNext } from '../component/DemoUseApi'
 import { DemoUseProgress, DemoUseProgressNext } from '../component/DemoUseProgress'
 
 const PageMain: React.ComponentType<{ match: any }> = () => {
@@ -39,6 +39,14 @@ const PageMain: React.ComponentType<{ match: any }> = () => {
             <Box my={2} mx={1}>
                 <Typography variant={'h2'}>React `useApi`+`useProgress` w/ initial</Typography>
                 <DemoUseApiProgress loadInitial/>
+            </Box>
+            <Box my={2} mx={1}>
+                <Typography variant={'h2'}>React `useApi`+`useProgressNext`</Typography>
+                <DemoUseApiProgressNext/>
+            </Box>
+            <Box my={2} mx={1}>
+                <Typography variant={'h2'}>React `useApi`+`useProgressNext` w/ initial</Typography>
+                <DemoUseApiProgressNext loadInitial/>
             </Box>
             <Box my={2} mx={1}>
                 <Typography variant={'h2'}>React `useProgress`</Typography>
