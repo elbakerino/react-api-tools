@@ -1,6 +1,6 @@
 {
     "name": "react-api-fetch",
-    "version": "0.3.3",
+    "version": "0.3.4",
     "description": "",
     "homepage": "https://bemit.codes",
     "author": "Michael Becker <michael@bemit.codes>",
@@ -14,33 +14,33 @@
     "types": "./index.d.ts",
     "exports": {
         ".": {
-            "import": "./build/esm/index.js",
             "types": "./src/index.ts",
+            "import": "./build/esm/index.js",
             "require": "./build/index.js"
         },
         "./extractHeaders": {
-            "import": "./build/esm/extractHeaders/index.js",
             "types": "./src/extractHeaders/index.ts",
+            "import": "./build/esm/extractHeaders/index.js",
             "require": "./build/extractHeaders/index.js"
         },
         "./fetcher": {
-            "import": "./build/esm/fetcher/index.js",
             "types": "./src/fetcher/index.ts",
+            "import": "./build/esm/fetcher/index.js",
             "require": "./build/fetcher/index.js"
         },
         "./fetcherFetch": {
-            "import": "./build/esm/fetcherFetch/index.js",
             "types": "./src/fetcherFetch/index.ts",
+            "import": "./build/esm/fetcherFetch/index.js",
             "require": "./build/fetcherFetch/index.js"
         },
         "./headersJson": {
-            "import": "./build/esm/headersJson/index.js",
             "types": "./src/headersJson/index.ts",
+            "import": "./build/esm/headersJson/index.js",
             "require": "./build/headersJson/index.js"
         },
         "./useApi": {
-            "import": "./build/esm/useApi/index.js",
             "types": "./src/useApi/index.ts",
+            "import": "./build/esm/useApi/index.js",
             "require": "./build/useApi/index.js"
         }
     },

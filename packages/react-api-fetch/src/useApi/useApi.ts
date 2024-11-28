@@ -7,17 +7,31 @@ export interface UseApiOptions<HR = {}> extends Pick<FetcherHooks<HR>, 'extractH
     headers?: HeadersInit
 }
 
-export type ApiConnect<HR = {}> =
+export type ApiConnect<HR = {}> = {
     <D = unknown>(
         url: string,
         method?: FetcherFetchMethod,
         data?: unknown,
-        reqHeaders?: HeadersInit,
+        headers?: HeadersInit,
         signal?: AbortSignal,
-    ) => Promise<{
+    ): Promise<{
         data: D
         code: number
     } & HR>
+
+    <D = unknown>(
+        url: string,
+        options: {
+            method?: FetcherFetchMethod
+            data?: unknown
+            headers?: HeadersInit
+            signal?: AbortSignal
+        },
+    ): Promise<{
+        data: D
+        code: number
+    } & HR>
+}
 
 export const useApi = <HR = {}>(
     {
@@ -28,22 +42,47 @@ export const useApi = <HR = {}>(
         extractHeaders,
         dataConvert,
         responseConvert,
-        headers,
+        headers: defaultHeaders,
     }: UseApiOptions<HR> = {},
 ): ApiConnect<HR> => {
     return useCallback(<D = {}>(
         url: string,
-        method: FetcherFetchMethod = 'GET',
-        data?: unknown,
-        reqHeaders?: HeadersInit,
-        signal?: AbortSignal,
+        ...args:
+            [
+                method?: FetcherFetchMethod,
+                data?: unknown,
+                headers?: HeadersInit,
+                signal?: AbortSignal,
+            ] |
+            [{
+                method?: FetcherFetchMethod
+                data?: unknown
+                headers?: HeadersInit
+                signal?: AbortSignal
+            }]
     ) => {
+        const [optionsOrMethod, ...rest] = args
+        let method: FetcherFetchMethod
+        let data: unknown
+        let headers: HeadersInit | undefined
+        let signal: AbortSignal | undefined
+        if(typeof optionsOrMethod === 'object') {
+            method = optionsOrMethod.method || 'GET'
+            data = optionsOrMethod.data
+            headers = optionsOrMethod.headers
+            signal = optionsOrMethod.signal
+        } else {
+            method = optionsOrMethod || 'GET'
+            data = rest[0]
+            headers = rest[1]
+            signal = rest[2]
+        }
         return fetcherFetch<D, HR>(
             url, method, data,
-            headers ? {
-                ...headers,
-                ...(reqHeaders || {}),
-            } : reqHeaders,
+            defaultHeaders ? {
+                ...defaultHeaders,
+                ...(headers || {}),
+            } : headers,
             {
                 bearer: bearer,
                 authorization: authorization,
@@ -55,5 +94,5 @@ export const useApi = <HR = {}>(
                 signal: signal,
             },
         )
-    }, [audience, authorization, bearer, dataConvert, extractHeaders, headers, responseConvert])
+    }, [audience, authorization, bearer, dataConvert, extractHeaders, defaultHeaders, responseConvert])
 }

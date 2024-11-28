@@ -2,7 +2,7 @@ import React from 'react'
 import Typography from '@mui/material/Typography'
 import { HeadMeta } from '@control-ui/kit/HeadMeta'
 import { Box, Container } from '@mui/material'
-import { DemoUseApi, DemoUseApiCancellable, DemoUseApiCancellableDeprecated, DemoUseApiProgress, DemoUseApiProgressNext } from '../component/DemoUseApi'
+import { DemoUseApi, DemoUseApiCancellable, DemoUseApiCancellableDeprecated, DemoUseApiOptionsCancellable, DemoUseApiProgress, DemoUseApiProgressNext } from '../component/DemoUseApi'
 import { DemoUseProgress, DemoUseProgressNext } from '../component/DemoUseProgress'
 
 const PageMain: React.ComponentType<{ match: any }> = () => {
@@ -27,6 +27,10 @@ const PageMain: React.ComponentType<{ match: any }> = () => {
             <Box my={2} mx={1}>
                 <Typography variant={'h2'}>React `useApi` cancellable</Typography>
                 <DemoUseApiCancellable/>
+            </Box>
+            <Box my={2} mx={1}>
+                <Typography variant={'h2'}>React `useApi` cancellable (with options)</Typography>
+                <DemoUseApiOptionsCancellable/>
             </Box>
             <Box my={2} mx={1}>
                 <Typography variant={'h2'}>React `useApiCancellable`</Typography>

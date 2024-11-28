@@ -91,6 +91,43 @@ export const DemoUseApiCancellable = () => {
     </>
 }
 
+export const DemoUseApiOptionsCancellable = () => {
+    const fetch = useApi({extractHeaders, dataConvert: dataConverterJson, headers: headersJson})
+    const [uuid, setUuid] = React.useState<string | undefined>(undefined)
+    const cancelRef = React.useRef<undefined | (() => void)>(undefined)
+    useEffect(() => {
+        return () => cancelRef.current?.()
+    }, [])
+    return <>
+        <Button
+            onClick={() => {
+                cancelRef.current?.()
+                const controller = new AbortController()
+                cancelRef.current = () => controller.abort()
+                window.setTimeout(() => {
+                    fetch<{ uuid: string }>('https://httpbin.org/uuid', {
+                        method: 'GET',
+                        signal: controller.signal,
+                    })
+                        .then(({data}) => {
+                            if(controller.signal.aborted) return
+                            setUuid(data.uuid)
+                        })
+                        .catch((e) => {
+                            if(controller.signal.aborted) return
+                            return Promise.reject(e)
+                        })
+                }, 200)
+            }}
+        >
+            Send
+        </Button>
+        <Typography gutterBottom>
+            result: {uuid || '-'}
+        </Typography>
+    </>
+}
+
 export const DemoUseApiProgress: React.FC<{ loadInitial?: boolean }> = ({loadInitial}) => {
     const fetch = useApi({extractHeaders, dataConvert: dataConverterJson, headers: headersJson})
     const [p, setP, startP] = useProgress<{ abort?: AbortController }>()
