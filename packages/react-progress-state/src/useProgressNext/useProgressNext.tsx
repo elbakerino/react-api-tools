@@ -41,7 +41,11 @@ export const legacyToNext = (progress: ProgressStateValuesLegacy): ProgressState
                 ? 'success'
                 : 'error'
 
-export function useProgress<CX = unknown>(reset?: any, initial: ProgressStateValues = ps.none): [
+export function useProgress<CX = unknown>(
+    reset?: any,
+    initial: ProgressStateValues = ps.none,
+    initialContext?: CX,
+): [
     ProgressStateWithContext<CX>,
     setProgress<CX>,
     startProgress<CX>,
@@ -52,7 +56,7 @@ export function useProgress<CX = unknown>(reset?: any, initial: ProgressStateVal
 
     const [progress, setP] = useState<ProgressStateWithContext<CX>>({
         progress: initial,
-        context: undefined,
+        context: initialContext,
     })
 
     useEffect(() => {

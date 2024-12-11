@@ -1,6 +1,6 @@
 {
     "name": "react-api-fetch",
-    "version": "0.3.4",
+    "version": "0.3.5",
     "description": "",
     "homepage": "https://bemit.codes",
     "author": "Michael Becker <michael@bemit.codes>",
@@ -10,38 +10,39 @@
         "react"
     ],
     "type": "module",
-    "main": "./esm/index.js",
+    "main": "./index.cjs",
+    "module": "./index.js",
     "types": "./index.d.ts",
     "exports": {
         ".": {
-            "types": "./src/index.ts",
-            "import": "./build/esm/index.js",
-            "require": "./build/index.js"
+            "types": "./index.d.ts",
+            "import": "./index.js",
+            "require": "./index.cjs"
         },
         "./extractHeaders": {
-            "types": "./src/extractHeaders/index.ts",
-            "import": "./build/esm/extractHeaders/index.js",
-            "require": "./build/extractHeaders/index.js"
+            "types": "./extractHeaders/index.d.ts",
+            "import": "./extractHeaders/index.js",
+            "require": "./extractHeaders/index.cjs"
         },
         "./fetcher": {
-            "types": "./src/fetcher/index.ts",
-            "import": "./build/esm/fetcher/index.js",
-            "require": "./build/fetcher/index.js"
+            "types": "./fetcher/index.d.ts",
+            "import": "./fetcher/index.js",
+            "require": "./fetcher/index.cjs"
         },
         "./fetcherFetch": {
-            "types": "./src/fetcherFetch/index.ts",
-            "import": "./build/esm/fetcherFetch/index.js",
-            "require": "./build/fetcherFetch/index.js"
+            "types": "./fetcherFetch/index.d.ts",
+            "import": "./fetcherFetch/index.js",
+            "require": "./fetcherFetch/index.cjs"
         },
         "./headersJson": {
-            "types": "./src/headersJson/index.ts",
-            "import": "./build/esm/headersJson/index.js",
-            "require": "./build/headersJson/index.js"
+            "types": "./headersJson/index.d.ts",
+            "import": "./headersJson/index.js",
+            "require": "./headersJson/index.cjs"
         },
         "./useApi": {
-            "types": "./src/useApi/index.ts",
-            "import": "./build/esm/useApi/index.js",
-            "require": "./build/useApi/index.js"
+            "types": "./useApi/index.d.ts",
+            "import": "./useApi/index.js",
+            "require": "./useApi/index.cjs"
         }
     },
     "sideEffects": false,

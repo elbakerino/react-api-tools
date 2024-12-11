@@ -1,6 +1,6 @@
 {
     "name": "react-use-immutable",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "description": "",
     "homepage": "https://bemit.codes",
     "author": "Michael Becker <michael@bemit.codes>",
@@ -15,29 +15,29 @@
     "type": "module",
     "exports": {
         ".": {
-            "types": "./src/index.ts",
-            "import": "./build/esm/index.js",
-            "require": "./build/index.js"
+            "types": "./index.d.ts",
+            "import": "./index.js",
+            "require": "./index.cjs"
         },
         "./createImmutable": {
-            "types": "./src/createImmutable/index.ts",
-            "import": "./build/esm/createImmutable/index.js",
-            "require": "./build/createImmutable/index.js"
+            "types": "./createImmutable/index.d.ts",
+            "import": "./createImmutable/index.js",
+            "require": "./createImmutable/index.cjs"
         },
         "./isImmutableDeep": {
-            "types": "./src/isImmutableDeep/index.ts",
-            "import": "./build/esm/isImmutableDeep/index.js",
-            "require": "./build/isImmutableDeep/index.js"
+            "types": "./isImmutableDeep/index.d.ts",
+            "import": "./isImmutableDeep/index.js",
+            "require": "./isImmutableDeep/index.cjs"
         },
         "./memo": {
-            "types": "./src/memo/index.ts",
-            "import": "./build/esm/memo/index.js",
-            "require": "./build/memo/index.js"
+            "types": "./memo/index.d.ts",
+            "import": "./memo/index.js",
+            "require": "./memo/index.cjs"
         },
         "./useImmutable": {
-            "types": "./src/useImmutable/index.ts",
-            "import": "./build/esm/useImmutable/index.js",
-            "require": "./build/useImmutable/index.js"
+            "types": "./useImmutable/index.d.ts",
+            "import": "./useImmutable/index.js",
+            "require": "./useImmutable/index.cjs"
         }
     },
     "sideEffects": false,
