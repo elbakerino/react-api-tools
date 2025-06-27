@@ -10,17 +10,17 @@
         "tscheck": "tsc --noEmit"
     },
     "dependencies": {
-        "react": "^18.0",
-        "@types/react": "^18.0",
-        "react-dom": "^18.0",
-        "@types/react-dom": "^18.0",
+        "react": "^19.0",
+        "@types/react": "^19.0",
+        "react-dom": "^19.0",
+        "@types/react-dom": "^19.0",
         "react-api-fetch": "*",
         "react-progress-state": "*",
         "@emotion/react": "^11.9.0",
         "@emotion/styled": "^11.8.1",
-        "@mui/material": "^5.1",
-        "@mui/icons-material": "^5.1",
-        "@mui/lab": "^5.0.0-alpha.80",
+        "@mui/material": "^7.1.2",
+        "@mui/icons-material": "^7.1.2",
+        "@mui/lab": "^7.0.0-beta.14",
         "react-router": "^5.1.2",
         "react-i18next": "^11.8.12",
         "i18next": "^19.8.4",
@@ -29,8 +29,8 @@
         "i18next-localstorage-backend": "^3.1.1",
         "i18next-http-backend": "^2.0",
         "react-router-dom": "^5.1.2",
-        "@control-ui/app": "0.0.28",
-        "@control-ui/routes": "0.0.8",
-        "@control-ui/kit": "0.0.32"
+        "@control-ui/app": "0.0.30",
+        "@control-ui/routes": "0.0.9",
+        "@control-ui/kit": "0.0.35"
     }
 }

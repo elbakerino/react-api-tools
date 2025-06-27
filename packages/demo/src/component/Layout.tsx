@@ -8,7 +8,7 @@ import { useSwitchTheme } from '@control-ui/app/AppTheme'
 import { Layout, LayoutProps } from '@control-ui/app/Layout'
 import { RouteComponentProps } from 'react-router'
 
-const CustomHeader: React.ComponentType<{}> = () => {
+const CustomHeader = () => {
     const {switchTheme} = useSwitchTheme()
     return <Header noDrawerToggle>
         <RouterLink
@@ -37,9 +37,9 @@ const PageNotFound: React.ComponentType<RouteComponentProps> = lazy(() => import
 const RoutingBase: LayoutProps['Content'] = (p) =>
     // @ts-ignore
     <RouteCascade routeId={'content'} childProps={p} Fallback={PageNotFound}/>
-export const Routing: LayoutProps['Content'] = React.memo(RoutingBase)
+export const Routing: LayoutProps['Content'] = React.memo(RoutingBase) as LayoutProps['Content']
 
-export const CustomLayout: React.ComponentType<{}> = () => {
+export const CustomLayout = () => {
     const location = useLocation()
     return <>
         <Layout

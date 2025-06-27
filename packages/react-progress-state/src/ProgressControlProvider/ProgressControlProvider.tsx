@@ -5,7 +5,7 @@ export type ProgressControlContextDataScope = { [id: string]: [ProgressStateValu
 export type ProgressControlContextData = { [scope: string]: ProgressControlContextDataScope }
 export type ProgressControlContextSet = {
     set: setProgressControl
-    ref: React.MutableRefObject<{ [p: string]: { [p: string]: ProgressStateValues } }>
+    ref: React.RefObject<{ [p: string]: { [p: string]: ProgressStateValues } }>
 }
 
 export type setProgressControl = React.Dispatch<React.SetStateAction<ProgressControlContextData>>

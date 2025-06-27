@@ -1,6 +1,6 @@
 {
     "name": "react-api-fetch",
-    "version": "0.3.5",
+    "version": "0.3.6",
     "description": "",
     "homepage": "https://bemit.codes",
     "author": "Michael Becker <michael@bemit.codes>",
@@ -50,12 +50,12 @@
         "dtsgen": "tsc -d --emitDeclarationOnly --pretty && node ../../tools/merge-dirs.js build/dts/src build && rm -rf build/dts && rm -rf build/**/*.test.*"
     },
     "devDependencies": {
-        "react": "^18.0",
-        "@types/react": "^18.0"
+        "react": "^19.0",
+        "@types/react": "^19.0"
     },
     "peerDependencies": {
-        "react": " ^17.0 || ^18.0",
-        "@types/react": "^17.0 || ^18.0"
+        "react": " ^17.0 || ^18.0 || ^19.0",
+        "@types/react": "^17.0 || ^18.0 || ^19.0"
     },
     "peerDependenciesMeta": {
         "@types/react": {

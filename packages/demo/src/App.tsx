@@ -1,12 +1,13 @@
-import React from 'react'
+import { PropsWithChildren } from 'react'
 import { App } from '@control-ui/app/App'
 import { CustomLayout } from './component/Layout'
 import { BrowserRouter } from 'react-router-dom'
 import { I18nProviderContext } from '@control-ui/app'
 import { routes } from './routes'
 
-const Provider: React.ComponentType<React.PropsWithChildren<{}>> = ({children}) => {
+const Provider = ({children}: PropsWithChildren<{}>) => {
     return <BrowserRouter>
+        {/* @ts-expect-error */}
         {children}
     </BrowserRouter>
 }
@@ -20,7 +21,7 @@ const i18n: I18nProviderContext = {
     expiration: 1000,
 }
 
-const CustomApp: React.ComponentType<{}> = () =>
+const CustomApp = () =>
     <BrowserRouter basename={'/'}>
         <App
             routes={routes()}
