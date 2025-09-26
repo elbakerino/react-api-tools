@@ -4,8 +4,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { extractHeaders } from 'react-api-fetch/extractHeaders'
 import { headersJson } from 'react-api-fetch/headersJson'
-import { ps, useProgress } from 'react-progress-state'
-import { ps as psNext, useProgress as useProgressNext } from 'react-progress-state/useProgressNext'
+import { ps, useProgress } from 'react-progress-state/useProgress'
 import { dataConverterJson, responseConverterJson } from 'react-api-fetch/fetcher'
 
 export const DemoUseApi = () => {
@@ -144,7 +143,7 @@ export const DemoUseApiProgress: React.FC<{ loadInitial?: boolean }> = ({loadIni
                     setP(ps.none, undefined, fid)
                     return
                 }
-                const isPid = setP(ps.done, undefined, fid)
+                const isPid = setP(ps.success, undefined, fid)
                 console.log(r, isPid)
                 if(!isPid) return
                 setUuid(r.data.uuid)
@@ -155,65 +154,6 @@ export const DemoUseApiProgress: React.FC<{ loadInitial?: boolean }> = ({loadIni
                     return
                 }
                 const isPid = setP(ps.error, r, fid)
-                console.error(r, isPid)
-            })
-        return {abort: controller.abort.bind(controller)}
-    }, [fetch, setP, startP])
-
-    React.useEffect(() => {
-        if(!loadInitial) return
-        const {abort} = load()
-        return abort
-    }, [loadInitial, load])
-
-    return <>
-        <Button
-            onClick={() => {
-                p.context?.abort?.abort()
-                load()
-            }}
-        >
-            Send
-        </Button>
-        <Typography gutterBottom>
-            fid: {JSON.stringify(fid)}
-        </Typography>
-        <Typography gutterBottom>
-            progress: {JSON.stringify(p)}
-        </Typography>
-        <Typography gutterBottom>
-            result: {uuid || '-'}
-        </Typography>
-    </>
-}
-
-export const DemoUseApiProgressNext: React.FC<{ loadInitial?: boolean }> = ({loadInitial}) => {
-    const fetch = useApi({extractHeaders, dataConvert: dataConverterJson, headers: headersJson})
-    const [p, setP, startP] = useProgressNext<{ abort?: AbortController }>()
-    const [fid, setFid] = React.useState<number | undefined>(undefined)
-    const [uuid, setUuid] = React.useState<string | undefined>(undefined)
-
-    const load = React.useCallback(() => {
-        const controller = new AbortController()
-        const fid = startP({abort: controller})
-        setFid(fid)
-        fetch<{ uuid: string }>('https://httpbin.org/uuid', 'GET', undefined, undefined, controller.signal)
-            .then(r => {
-                if(controller.signal.aborted) {
-                    setP(psNext.none, undefined, fid)
-                    return
-                }
-                const isPid = setP(psNext.success, undefined, fid)
-                console.log(r, isPid)
-                if(!isPid) return
-                setUuid(r.data.uuid)
-            })
-            .catch(r => {
-                if(controller.signal.aborted) {
-                    setP(psNext.none, undefined, fid)
-                    return
-                }
-                const isPid = setP(psNext.error, r, fid)
                 console.error(r, isPid)
             })
         return {abort: controller.abort.bind(controller)}

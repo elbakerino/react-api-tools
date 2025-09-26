@@ -2,8 +2,8 @@ import React from 'react'
 import Typography from '@mui/material/Typography'
 import { HeadMeta } from '@control-ui/kit/HeadMeta'
 import { Box, Container } from '@mui/material'
-import { DemoUseApi, DemoUseApiCancellable, DemoUseApiCancellableDeprecated, DemoUseApiOptionsCancellable, DemoUseApiProgress, DemoUseApiProgressNext } from '../component/DemoUseApi'
-import { DemoUseProgress, DemoUseProgressNext } from '../component/DemoUseProgress'
+import { DemoUseApi, DemoUseApiCancellable, DemoUseApiCancellableDeprecated, DemoUseApiOptionsCancellable, DemoUseApiProgress } from '../component/DemoUseApi'
+import { DemoUseProgress } from '../component/DemoUseProgress'
 
 const PageMain: React.ComponentType<{ match: any }> = () => {
     return (<>
@@ -45,20 +45,8 @@ const PageMain: React.ComponentType<{ match: any }> = () => {
                 <DemoUseApiProgress loadInitial/>
             </Box>
             <Box my={2} mx={1}>
-                <Typography variant={'h2'}>React `useApi`+`useProgressNext`</Typography>
-                <DemoUseApiProgressNext/>
-            </Box>
-            <Box my={2} mx={1}>
-                <Typography variant={'h2'}>React `useApi`+`useProgressNext` w/ initial</Typography>
-                <DemoUseApiProgressNext loadInitial/>
-            </Box>
-            <Box my={2} mx={1}>
                 <Typography variant={'h2'}>React `useProgress`</Typography>
                 <DemoUseProgress/>
-            </Box>
-            <Box my={2} mx={1}>
-                <Typography variant={'h2'}>React `useProgressNext`</Typography>
-                <DemoUseProgressNext/>
             </Box>
         </Container>
     </>)

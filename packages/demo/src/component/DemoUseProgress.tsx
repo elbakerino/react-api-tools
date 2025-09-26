@@ -2,7 +2,6 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { ps, useProgress } from 'react-progress-state'
-import { ps as psNext, useProgress as useProgressNext } from 'react-progress-state/useProgressNext'
 
 export const DemoUseProgress = () => {
     const [p, setP] = useProgress()
@@ -13,12 +12,12 @@ export const DemoUseProgress = () => {
                     switch(p.progress) {
                         case ps.error:
                         case ps.none:
-                            setP(ps.start)
+                            setP(ps.loading)
                             break
-                        case ps.start:
-                            setP(ps.done)
+                        case ps.loading:
+                            setP(ps.success)
                             break
-                        case ps.done:
+                        case ps.success:
                             setP(ps.none)
                             break
                     }
@@ -28,7 +27,7 @@ export const DemoUseProgress = () => {
                     p.progress === ps.none ||
                     p.progress === ps.error ?
                         'Load' :
-                        p.progress === ps.done ?
+                        p.progress === ps.success ?
                             'Reset' :
                             'Done'
                 }
@@ -38,56 +37,6 @@ export const DemoUseProgress = () => {
                 onClick={() => {
                     setP(
                         ps.error,
-                        {
-                            error: 'Something is wrong',
-                        },
-                    )
-                }}
-            >
-                is-error!
-            </Button>
-        </Box>
-
-        <Typography component={'div'}>
-            <pre><code>{JSON.stringify(p, undefined, 4)}</code></pre>
-        </Typography>
-    </>
-}
-
-export const DemoUseProgressNext = () => {
-    const [p, setP] = useProgressNext()
-    return <>
-        <Box>
-            <Button
-                onClick={() => {
-                    switch(p.progress) {
-                        case psNext.error:
-                        case psNext.none:
-                            setP(psNext.loading)
-                            break
-                        case psNext.loading:
-                            setP(psNext.success)
-                            break
-                        case psNext.success:
-                            setP(psNext.none)
-                            break
-                    }
-                }}
-            >
-                {
-                    p.progress === psNext.none ||
-                    p.progress === psNext.error ?
-                        'Load' :
-                        p.progress === psNext.success ?
-                            'Reset' :
-                            'Done'
-                }
-            </Button>
-
-            <Button
-                onClick={() => {
-                    setP(
-                        psNext.error,
                         {
                             error: 'Something is wrong',
                         },

@@ -1,6 +1,6 @@
 {
     "name": "react-progress-state",
-    "version": "0.3.5",
+    "version": "0.4.0",
     "description": "",
     "homepage": "https://bemit.codes",
     "author": "Michael Becker <michael@bemit.codes>",
@@ -22,25 +22,10 @@
             "import": "./index.js",
             "require": "./index.cjs"
         },
-        "./ProgressControlActions": {
-            "types": "./ProgressControlActions/index.d.ts",
-            "import": "./ProgressControlActions/index.js",
-            "require": "./ProgressControlActions/index.cjs"
-        },
-        "./ProgressControlProvider": {
-            "types": "./ProgressControlProvider/index.d.ts",
-            "import": "./ProgressControlProvider/index.js",
-            "require": "./ProgressControlProvider/index.cjs"
-        },
         "./useProgress": {
             "types": "./useProgress/index.d.ts",
             "import": "./useProgress/index.js",
             "require": "./useProgress/index.cjs"
-        },
-        "./useProgressNext": {
-            "types": "./useProgressNext/index.d.ts",
-            "import": "./useProgressNext/index.js",
-            "require": "./useProgressNext/index.cjs"
         }
     },
     "sideEffects": false,
